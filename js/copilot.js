@@ -381,8 +381,16 @@
 
   // ── SIMPLE MARKDOWN RENDERER ─────────────────────────────────────────
 
-  function renderMarkdown(text) {
+  function escapeHTMLEntities(text) {
     return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderMarkdown(text) {
+    return escapeHTMLEntities(text)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/_(.+?)_/g, '<em>$1</em>')
       .replace(/\n/g, '<br>');
