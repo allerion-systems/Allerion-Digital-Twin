@@ -103,19 +103,63 @@
   .cesium-credit-container { display:none !important; }
   .cesium-widget-credits { display:none !important; }
 
+  /* Touch optimisation — eliminates 300ms tap delay on all interactive elements */
+  button, .layer-toggle, .fly-btn, .view-btn, #mobile-toggle {
+    touch-action: manipulation;
+  }
+
   /* Mobile Responsive Design */
   #mobile-toggle {
     display:none; position:absolute; top:8px; left:10px; z-index:200;
     background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.5);
-    color:#e8c97a; border-radius:4px; padding:6px 12px; font-family:monospace;cursor:pointer;
+    color:#e8c97a; border-radius:4px; padding:8px 14px; font-family:monospace;
+    cursor:pointer; font-size:0.8rem; min-height:44px;
   }
+
+  /* ── Tablet & large phones (≤800px) ───────────────────────────────── */
   @media (max-width: 800px) {
-    #mobile-toggle { display:block; }
-    #topbar { left:0; height:46px; padding-left:90px; overflow-x:auto; white-space:nowrap; }
+    #mobile-toggle { display:flex; align-items:center; }
+    #topbar {
+      left:0; height:48px; padding-left:90px;
+      overflow-x:auto; white-space:nowrap;
+      -webkit-overflow-scrolling:touch; gap:0.5rem;
+    }
     #coord-display { display:none; }
     #ui {
       transform:translateX(-100%); transition:transform 0.3s;
       border-right:1px solid rgba(201,168,76,0.4); box-shadow:0 0 20px rgba(0,0,0,0.8);
     }
     #ui.open { transform:translateX(0); }
+
+    /* Enlarged touch targets (44px minimum per WCAG) */
+    .layer-toggle { padding:0.7rem 1rem; min-height:44px; }
+    .fly-btn { min-height:44px; padding:0.6rem 0.7rem; font-size:0.6rem; }
+    .view-btn { min-height:40px; padding:0.4rem 0.8rem; font-size:0.55rem; }
+    #detail-close { min-height:36px; font-size:0.58rem; padding:0.3rem 0.7rem; }
+
+    /* Readable font sizes (previous 0.44–0.5rem ≈ 7–8px — too small for mobile) */
+    .live-tag { font-size:0.6rem; }
+    #ui-header h1 { font-size:1rem; }
+    .section-label { font-size:0.62rem; padding:0.8rem 1rem 0.4rem; }
+    .layer-label { font-size:0.65rem; }
+    .stat-key { font-size:0.58rem; }
+    .stat-val { font-size:0.65rem; }
+    #detail-type { font-size:0.58rem; }
+    #detail-title { font-size:1rem; }
+    #detail-body { font-size:0.82rem; }
+
+    /* Move D-pad up so it clears any Cesium bottom content */
+    #nav-controls { bottom:40px; right:12px; }
+  }
+
+  /* ── Small phones (≤480px) ─────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    /* Full-width sidebar so content is actually readable */
+    #ui { width:100vw; }
+    #topbar { padding-left:75px; gap:0.35rem; }
+    .view-btn { font-size:0.5rem; padding:0.35rem 0.55rem; }
+    #ui-header h1 { font-size:0.95rem; }
+    /* Slightly larger layer dots for fat-finger tapping */
+    .layer-dot { width:12px; height:12px; }
+    #nav-controls { bottom:50px; right:10px; }
   }
