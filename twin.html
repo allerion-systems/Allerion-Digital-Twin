@@ -237,6 +237,17 @@
       window.copilotSend();
     }
   });
+
+  // Close sidebar when tapping outside on mobile
+  document.addEventListener('click', function(e) {
+    var ui = document.getElementById('ui');
+    var toggle = document.getElementById('mobile-toggle');
+    if (window.innerWidth <= 800 && ui.classList.contains('open')) {
+      if (!ui.contains(e.target) && e.target !== toggle) {
+        ui.classList.remove('open');
+      }
+    }
+  });
 })();
 </script>
 </body>

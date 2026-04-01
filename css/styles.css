@@ -103,11 +103,15 @@
   .cesium-credit-container { display:none !important; }
   .cesium-widget-credits { display:none !important; }
 
+  /* Remove 300ms tap delay on interactive elements */
+  button, a, .layer-toggle, .fly-btn, .view-btn, .copilot-chip { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
   /* Mobile Responsive Design */
   #mobile-toggle {
     display:none; position:absolute; top:8px; left:10px; z-index:200;
     background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.5);
     color:#e8c97a; border-radius:4px; padding:6px 12px; font-family:monospace;cursor:pointer;
+    min-height:40px; min-width:44px; font-size:0.6rem; letter-spacing:0.1em;
   }
   @media (max-width: 800px) {
     #mobile-toggle { display:block; }
@@ -119,6 +123,33 @@
     }
     #ui.open { transform:translateX(0); }
     #copilot-panel { width:100% !important; right:0 !important; }
+
+    /* Readable font sizes for mobile */
+    .live-tag { font-size:0.6rem; }
+    #ui-header h1 { font-size:1.05rem; }
+    #ui-header p { font-size:0.6rem; }
+    .section-label { font-size:0.6rem; }
+    .layer-label { font-size:0.65rem; letter-spacing:0.05em; }
+    #detail-title { font-size:1rem; }
+    #detail-type { font-size:0.58rem; }
+    #detail-body { font-size:0.82rem; }
+    .stat-key { font-size:0.56rem; }
+    .stat-val { font-size:0.62rem; }
+    .view-btn { font-size:0.55rem; padding:0.35rem 0.8rem; }
+
+    /* Touch-friendly targets (min 44px) */
+    .layer-toggle { padding:0.75rem 1rem; min-height:44px; }
+    .fly-btn { font-size:0.6rem; padding:0.6rem 0.8rem; min-height:44px; display:flex; align-items:center; }
+    #detail-close { font-size:0.55rem; padding:0.35rem 0.7rem; min-height:36px; }
+
+    /* Copilot panel text sizes for mobile */
+    #copilot-header .copilot-title { font-size:0.65rem; }
+    #copilot-header .copilot-subtitle { font-size:0.52rem; }
+    .copilot-msg { font-size:0.85rem; line-height:1.55; }
+    .copilot-chip { font-size:0.52rem; padding:0.4rem 0.7rem; min-height:32px; }
+    #copilot-input { font-size:0.85rem; min-height:44px; }
+    #copilot-send { font-size:0.58rem; min-height:44px; min-width:44px; }
+    .copilot-msg-system { font-size:0.52rem; }
   }
 
   /* ── COPILOT PANEL ── */
