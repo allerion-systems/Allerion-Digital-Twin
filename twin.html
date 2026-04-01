@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Allerion Intelligence — Critical Mineral Map · Hardin County IL</title>
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Cesium.js"></script>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet"/>
+<link href="css/styles.css" rel="stylesheet"/>
+</head>
+<body>
+
+<button id="mobile-toggle" onclick="document.getElementById('ui').classList.toggle('open')">☰ MENU</button>
+
+<div id="ui">
+  <div id="ui-header">
+    <div><span class="pulse"></span><span class="live-tag">ISGS · EARTH MRI · SECTION 19 T12S R8E</span></div>
+    <h1>Critical Mineral Map<br/><em>Allerion Land · Hardin Co. IL</em></h1>
+  </div>
+  <div class="section-label">▸ Map Layers</div>
+  <div class="layer-toggle" style="--c:#c9a84c" data-layer="mines" onclick="toggleLayer('mines',this)">
+    <div class="layer-dot" style="background:#c9a84c"></div>
+    <span class="layer-label">Mine Shafts (3 Confirmed)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#ccbb33" data-layer="cores" onclick="toggleLayer('cores',this)">
+    <div class="layer-dot" style="background:#ccbb33"></div>
+    <span class="layer-label">USGS Core Holes (1944)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#e8c97a" data-layer="veins" onclick="toggleLayer('veins',this)">
+    <div class="layer-dot" style="background:#e8c97a"></div>
+    <span class="layer-label">Fluorspar Veins</span>
+  </div>
+  <div class="layer-toggle" style="--c:#e85050" data-layer="interpolation" onclick="toggleLayer('interpolation',this)">
+    <div class="layer-dot" style="background:#e85050; opacity: 1.0;"></div>
+    <span class="layer-label">Grade Interpolation (Kriging)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#99ccff" data-layer="buildings" onclick="toggleLayer('buildings',this)">
+    <div class="layer-dot" style="background:#99ccff; opacity: 1.0;"></div>
+    <span class="layer-label">OSM 3D Buildings</span>
+  </div>
+  <div class="layer-toggle" style="--c:#ff55ff" data-layer="pointcloud" onclick="toggleLayer('pointcloud',this)">
+    <div class="layer-dot" style="background:#ff55ff; opacity: 1.0;"></div>
+    <span class="layer-label">Point Cloud (Classification)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#e85050" data-layer="hree" onclick="toggleLayer('hree',this)">
+    <div class="layer-dot" style="background:#e85050"></div>
+    <span class="layer-label">HREE Zone (Dy/Tb/Sc/Y)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#c9a84c" data-layer="lree" onclick="toggleLayer('lree',this)">
+    <div class="layer-dot" style="background:#c9a84c"></div>
+    <span class="layer-label">LREE Zone (Ce/La/Nd/Pr)</span>
+  </div>
+  <div class="layer-toggle active" style="--c:#4af0c8" data-layer="property" onclick="toggleLayer('property',this)">
+    <div class="layer-dot" style="background:#4af0c8"></div>
+    <span class="layer-label">Property Boundary (40ac)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#a070e0" data-layer="hicksdome" onclick="toggleLayer('hicksdome',this)">
+    <div class="layer-dot" style="background:#a070e0"></div>
+    <span class="layer-label">Hicks Dome (HREE Source)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#ff9900" data-layer="earthmri" onclick="toggleLayer('earthmri',this)">
+    <div class="layer-dot" style="background:#ff9900"></div>
+    <span class="layer-label">Earth MRI Project Areas</span>
+  </div>
+
+  <div class="section-label">▸ Fly To</div>
+  <button class="fly-btn" onclick="flyTo('overview')"><span>🌍</span>Overview — Full Site</button>
+  <button class="fly-btn" onclick="flyTo('dubois')"><span>⛏️</span>Dubois Mine Shaft</button>
+  <button class="fly-btn" onclick="flyTo('indiana')"><span>⛏️</span>Indiana Mine (5,900T)</button>
+  <button class="fly-btn" onclick="flyTo('cores')"><span>🔬</span>USGS Core Holes</button>
+  <button class="fly-btn" onclick="flyTo('hicksdome')"><span>🔬</span>Hicks Dome (~3mi SW)</button>
+  <button class="fly-btn" onclick="flyTo('regional')"><span>🗺️</span>Regional Context</button>
+
+  <div id="ui-content">
+    <div id="brand-logo">Allerion Intelligence</div>
+    <div class="subtitle">Earth MRI & USGS Geophysics</div>
+
+    <!-- Vertical Exaggeration Slider -->
+    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(201,168,76,0.3);">
+      <div style="font-size: 11px; margin-bottom: 5px; color: #a89467; font-weight: bold;">TERRAIN HEIGHT (EXAGGERATION): <span id="exag-val" style="color: #fff;">2.5</span>x</div>
+      <input type="range" id="exaggeration-slider" min="1" max="5" step="0.5" value="2.5" style="width:100%; cursor: pointer;" oninput="document.getElementById('exag-val').innerText = parseFloat(this.value).toFixed(1); viewer.scene.verticalExaggeration = parseFloat(this.value);" />
+    </div>
+
+    <!-- Active Layers -->
+  </div>
+
+  <div id="detail-card">
+    <div id="detail-type"></div>
+    <div id="detail-title"></div>
+    <div id="detail-body"></div>
+    <button id="detail-close" onclick="closeDetail()">Close ✕</button>
+  </div>
+
+  <div id="stats">
+    <div class="stat-row"><span class="stat-key">COUNTY</span><span class="stat-val">Hardin, Illinois</span></div>
+    <div class="stat-row"><span class="stat-key">SECTION</span><span class="stat-val">19 · T12S · R8E</span></div>
+    <div class="stat-row"><span class="stat-key">ACRES</span><span class="stat-val">40 Net Mineral Acres</span></div>
+    <div class="stat-row"><span class="stat-key">CONFIRMED SHAFTS</span><span class="stat-val">3 (ISGS 1988)</span></div>
+    <div class="stat-row"><span class="stat-key">HREE VS MT.PASS</span><span class="stat-val">10× Enrichment</span></div>
+    <div class="stat-row"><span class="stat-key">ORE EST.</span><span class="stat-val">12–65M Tons District</span></div>
+  </div>
+</div>
+
+<div id="topbar">
+  <!-- Integration to Landing Page with Tactical Logo -->
+  <a href="index.html" class="view-btn" style="background:#090a0f; color:#9da2a6; border-color:#333; text-decoration:none; margin-right:1rem; display:flex; align-items:center; gap: 8px;">
+        <svg viewBox="0 -5 160 55" style="height: 18px; fill: none; stroke-linecap: square;">
+            <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="10"/>
+            <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="10" stroke-linejoin="miter"/>
+            <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="10"/>
+            <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="10"/>
+        </svg>
+        <span>GENESIS CONTROL</span>
+  </a>
+  
+  <button class="view-btn active" id="btn3d" onclick="setView('3d')">3D Terrain</button>
+  <button class="view-btn" id="btn2d" onclick="setView('2d')">2D Top-Down</button>
+  <button class="view-btn" id="btnsat" onclick="toggleImagery()">🛰 Satellite</button>
+  <button class="view-btn" style="background:#5e197d; color:#e096ff; border-color:#d05bff; font-weight:bold;" onclick="window.toggleOrbitLock()">🌐 Lock Orbit To Parcel</button>
+  <button class="view-btn" style="background:#2b1a10; color:#e8c97a; border-color:#c9a84c;" onclick="window.toggleSplitScreen()">◫ Dual Sync View</button>
+  <button class="view-btn" style="background:#101a2b; color:#4af0c8; border-color:#4af0c8;" onclick="window.toggleUnderground()">👁️ X-Ray</button>
+  <button class="view-btn" style="background:#2b2b10; color:#ffff00; border-color:#ffff00;" onclick="window.toggleLighting()">☀️ Sunlight</button>
+  <span id="coord-display">Hover over map for coordinates</span>
+</div>
+
+<div id="dual-view-container" style="display:flex; width:100%; height:100%;">
+  <div id="cesiumContainer" style="width:100%; height:100%; position:relative;"></div>
+  <div id="cesiumContainer2" style="width:0%; height:100%; position:relative; display:none; border-left: 2px solid #c9a84c;"></div>
+</div>
+
+<!-- ONSCREEN D-PAD / NAVIGATION -->
+<div id="nav-controls" style="position: absolute; right: 20px; bottom: 20px; z-index: 999; display: flex; flex-direction: column; gap: 10px;">
+  <!-- Zoom controls -->
+  <div style="background: rgba(8,10,16,0.92); border: 1px solid rgba(201,168,76,0.4); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column;">
+    <button onclick="window.zoomMap(-0.5)" style="background: none; border: none; color: #c9a84c; font-size: 26px; cursor: pointer; padding: 6px 14px; border-bottom: 1px solid rgba(201,168,76,0.2); transition: background 0.2s;">+</button>
+    <button onclick="window.zoomMap(0.5)" style="background: none; border: none; color: #c9a84c; font-size: 26px; cursor: pointer; padding: 6px 14px; transition: background 0.2s;">−</button>
+  </div>
+  <!-- Pan controls -->
+  <div style="background: rgba(8,10,16,0.92); border: 1px solid rgba(201,168,76,0.4); border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 4px; gap: 3px;">
+    <div></div>
+    <button onclick="window.panMap('up')" style="background: rgba(201,168,76,0.1); border: 1px solid transparent; color: #c9a84c; cursor: pointer; padding: 10px; border-radius: 4px;">▲</button>
+    <div></div>
+    <button onclick="window.panMap('left')" style="background: rgba(201,168,76,0.1); border: 1px solid transparent; color: #c9a84c; cursor: pointer; padding: 10px; border-radius: 4px;">◀</button>
+    <button onclick="window.flyTo('overview')" style="background: rgba(201,168,76,0.25); border: 1px solid rgba(201,168,76,0.5); color: #fff; cursor: pointer; padding: 10px; font-size: 10px; font-weight: bold; border-radius: 4px;">●</button>
+    <button onclick="window.panMap('right')" style="background: rgba(201,168,76,0.1); border: 1px solid transparent; color: #c9a84c; cursor: pointer; padding: 10px; border-radius: 4px;">▶</button>
+    <div></div>
+    <button onclick="window.panMap('down')" style="background: rgba(201,168,76,0.1); border: 1px solid transparent; color: #c9a84c; cursor: pointer; padding: 10px; border-radius: 4px;">▼</button>
+    <div></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
