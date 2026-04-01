@@ -63,7 +63,7 @@ viewer.scene.screenSpaceCameraController.inertiaTranslate = 0.9;
 viewer.scene.screenSpaceCameraController.inertiaZoom = 0.9;
 
 // ── LAYER STORE ──────────────────────────────────────────────────────
-const layers = { mines: [], cores: [], veins: [], hree: [], lree: [], property: [], hicksdome: [], earthmri: [], interpolation: [], buildings: [], pointcloud: [] };
+const layers = { mines: [], cores: [], veins: [], hree: [], lree: [], property: [], hicksdome: [], earthmri: [], interpolation: [], buildings: [], pointcloud: [], tilesets: [] };
 
 // ── ADD OSM 3D BUILDINGS ─────────────────────────────────────────────
 Cesium.createOsmBuildingsAsync().then(buildings => {
@@ -152,9 +152,7 @@ const mineData = [
   }
 ];
 
-// ── RENDER MINE SHAFTS ───────────────────────────────────────────────
 mineData.forEach(mine => {
-  // Glowing base disc
   const disc = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, 0),
     ellipse: {
@@ -166,8 +164,7 @@ mineData.forEach(mine => {
     }
   });
 
-  // Vertical shaft cylinder (going exactly DOWN into earth from 140m baseline)
-  const shaftCenterZ = 140 - (mine.depth / 2); // Perfectly sets top edge flush with 140m terrain
+  const shaftCenterZ = 140 - (mine.depth / 2);
   const shaft = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, shaftCenterZ),
     cylinder: {
@@ -178,7 +175,6 @@ mineData.forEach(mine => {
     }
   });
 
-  // Underground terminal depth indicator label
   const bottomLabel = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, 140 - mine.depth),
     label: {
@@ -189,12 +185,11 @@ mineData.forEach(mine => {
       style: Cesium.LabelStyle.FILL_AND_OUTLINE,
       verticalOrigin: Cesium.VerticalOrigin.TOP,
       pixelOffset: new Cesium.Cartesian2(0, 10),
-      disableDepthTestDistance: Number.POSITIVE_INFINITY, // Never obscured
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 8000),
     }
   });
 
-  // Surface marker spike going UP
   const spike = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, 0),
     cylinder: {
@@ -205,7 +200,6 @@ mineData.forEach(mine => {
     }
   });
 
-  // Label
   const label = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, 120),
     label: {
@@ -222,7 +216,6 @@ mineData.forEach(mine => {
     }
   });
 
-  // Clickable point
   const point = viewer.entities.add({
     id: mine.id,
     position: Cesium.Cartesian3.fromDegrees(mine.lon, mine.lat, 50),
@@ -233,10 +226,6 @@ mineData.forEach(mine => {
   mine.layers.push(disc, shaft, bottomLabel, spike, label, point);
 });
 
-// ── FLUORSPAR VEINS ──────────────────────────────────────────────────
-// Based on documented strike directions from ISGS Mine Inventory forms
-// Dubois: N60-65°E, Indiana: N18°E, Lavender: N-S80°W
-// Centered around accurate property center
 const veinDefs = [
   {
     name: 'Dubois Vein — N65°E (Confirmed)',
@@ -258,8 +247,7 @@ const veinDefs = [
   },
   {
     name: 'Lavender Vein — N-S80°W (Confirmed)',
-    // Vein lines mathematically shifted to correctly span between the newly centered shafts
-    coords: [[-88.37461, 37.45347], [-88.37350, 37.45450]], // Dubois -> Indiana
+    coords: [[-88.37461, 37.45347], [-88.37350, 37.45450]],
     color: Cesium.Color.fromCssColorString('#8ab0c0').withAlpha(0.8),
     width: 3, dashed: false,
   },
@@ -298,32 +286,22 @@ veinDefs.forEach(v => {
   layers.veins.push(vein);
 });
 
-// ── PROPERTIES BOUNDARY (J. ALLEE WHOLESALE MINING) ──────────────────
-// Manually plotted exactly centered at 37.453466, -88.374611 per the Image 1 screenshot
 const propCorners = [
-  [-88.3768, 37.4516], // SW
-  [-88.3768, 37.4552], // NW
-  [-88.3724, 37.4552], // NE
-  [-88.3724, 37.4516], // SE
-  [-88.3768, 37.4516], // Close loop
+  [-88.3768, 37.4516], [-88.3768, 37.4552], [-88.3724, 37.4552], [-88.3724, 37.4516], [-88.3768, 37.4516]
 ].map(c => Cesium.Cartesian3.fromDegrees(c[0], c[1]));
 
 const propBorder = viewer.entities.add({
   polyline: {
     positions: propCorners,
     width: 6,
-    material: Cesium.Color.fromCssColorString('#ffff00').withAlpha(1.0), // Bright Yellow
+    material: Cesium.Color.fromCssColorString('#ffff00').withAlpha(1.0),
     clampToGround: true,
   }
 });
 
 const propPin = viewer.entities.add({
   position: Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat, 0),
-  billboard: {
-    color: Cesium.Color.YELLOW,
-    scale: 1.0,
-    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
-  },
+  billboard: { color: Cesium.Color.YELLOW, scale: 1.0, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND },
   label: {
     text: '📍 _/ALLERION.LLC\\_',
     font: 'bold 15px sans-serif',
@@ -337,13 +315,8 @@ const propPin = viewer.entities.add({
 });
 layers.property.push(propBorder, propPin);
 
-// ── HREE ZONE ────────────────────────────────────────────────────────
-// High HREE probability zone — western half of Allerion parcel
 const hreeCorners = [
-  [-88.3768, 37.4516], // SW
-  [-88.3768, 37.4552], // NW
-  [-88.3746, 37.4552], // NE
-  [-88.3746, 37.4516]  // SE
+  [-88.3768, 37.4516], [-88.3768, 37.4552], [-88.3746, 37.4552], [-88.3746, 37.4516]
 ].map(c => Cesium.Cartesian3.fromDegrees(c[0], c[1]));
 
 const hreeZone = viewer.entities.add({
@@ -356,13 +329,8 @@ const hreeZone = viewer.entities.add({
 });
 layers.hree.push(hreeZone);
 
-// ── LREE ZONE ────────────────────────────────────────────────────────
-// High LREE probability zone — eastern half of Allerion parcel
 const lreeCorners = [
-  [-88.3746, 37.4516], // SW
-  [-88.3746, 37.4552], // NW
-  [-88.3724, 37.4552], // NE
-  [-88.3724, 37.4516]  // SE
+  [-88.3746, 37.4516], [-88.3746, 37.4552], [-88.3724, 37.4552], [-88.3724, 37.4516]
 ].map(c => Cesium.Cartesian3.fromDegrees(c[0], c[1]));
 
 const lreeZone = viewer.entities.add({
@@ -375,8 +343,6 @@ const lreeZone = viewer.entities.add({
 });
 layers.lree.push(lreeZone);
 
-// ── GRADE INTERPOLATION (KRIGING) ────────────────────────────────────
-// Simulated geological block model over the entire Allerion parcel
 const interpRect = viewer.entities.add({
   rectangle: {
     coordinates: Cesium.Rectangle.fromDegrees(-88.3768, 37.4516, -88.3724, 37.4552),
@@ -386,45 +352,32 @@ const interpRect = viewer.entities.add({
       repeat: 6.0,
       orientation: Cesium.StripeOrientation.VERTICAL
     }),
-    height: 30,
-    outline: true,
-    outlineColor: Cesium.Color.WHITE
+    height: 30, outline: true, outlineColor: Cesium.Color.WHITE
   }
 });
 layers.interpolation.push(interpRect);
 
-// ── EARTH MRI (USGS NATIVE BOUNDARIES) ───────────────────────────────
-// Loading the exact "usgs_MRI" KML explicitly from the user's Ion Dataset (Asset ID: 4588349) 
-// This correctly overlays the literal, live USGS Earth MRI bedrock boundaries directly into the map!
 Cesium.IonResource.fromAssetId(4588349).then(resource => {
-  viewer.dataSources.add(Cesium.KmlDataSource.load(resource, {
-    camera: viewer.scene.camera,
-    canvas: viewer.scene.canvas,
-    clampToGround: true
-  })).then(dataSource => {
-    // Enforce transparency so the USGS bedrock polygons do not block the majestic terrain
+  viewer.dataSources.add(Cesium.KmlDataSource.load(resource, { camera: viewer.scene.camera, canvas: viewer.scene.canvas, clampToGround: true })).then(dataSource => {
     dataSource.entities.values.forEach(entity => {
       if (entity.polygon && entity.polygon.material && entity.polygon.material.color) {
         let col = entity.polygon.material.color.getValue();
-        entity.polygon.material = col.withAlpha(0.35); // Keep their official colors, just 35% translucent
+        entity.polygon.material = col.withAlpha(0.35);
       }
     });
-    dataSource.show = false; // Starts hidden until toggled by user in menu
+    dataSource.show = false;
     layers.earthmri.push(dataSource);
   });
-}).catch(e => console.error("Error loading native USGS Earth MRI:", e));
-interpRect.show = false; // Hidden by default
+});
+interpRect.show = false;
 
-// ── HICKS DOME MARKER ────────────────────────────────────────────────
 const hicksDisc = viewer.entities.add({
   position: Cesium.Cartesian3.fromDegrees(SITE.hicksDome.lon, SITE.hicksDome.lat, 0),
   ellipse: {
     semiMinorAxis: 4000, semiMajorAxis: 4000,
     material: Cesium.Color.fromCssColorString('#a070e0').withAlpha(0.12),
-    outline: true,
-    outlineColor: Cesium.Color.fromCssColorString('#a070e0').withAlpha(0.6),
-    outlineWidth: 2,
-    heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+    outline: true, outlineColor: Cesium.Color.fromCssColorString('#a070e0').withAlpha(0.6),
+    outlineWidth: 2, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
   }
 });
 const hicksLabel = viewer.entities.add({
@@ -440,309 +393,100 @@ const hicksLabel = viewer.entities.add({
     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 30000),
   }
 });
-// Arrow line from Hicks Dome to property
 const arrowLine = viewer.entities.add({
   polyline: {
-    positions: [
-      Cesium.Cartesian3.fromDegrees(SITE.hicksDome.lon, SITE.hicksDome.lat),
-      Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat),
-    ],
-    width: 1.5,
-    material: new Cesium.PolylineDashMaterialProperty({
-      color: Cesium.Color.fromCssColorString('#a070e0').withAlpha(0.5),
-      dashLength: 20,
-    }),
+    positions: [ Cesium.Cartesian3.fromDegrees(SITE.hicksDome.lon, SITE.hicksDome.lat), Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat)],
+    width: 1.5, material: new Cesium.PolylineDashMaterialProperty({ color: Cesium.Color.fromCssColorString('#a070e0').withAlpha(0.5), dashLength: 20 }),
     clampToGround: true,
   }
 });
 layers.hicksdome.push(hicksDisc, hicksLabel, arrowLine);
 
-  viewer.scene.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(-88.3582, 37.4059, 25000.0), // High altitude over Ohio River
-    orientation: {
-      heading: Cesium.Math.toRadians(0.0), // Pointing North
-      pitch: Cesium.Math.toRadians(-90.0), // 2D compatible down-look
+const NURE_SAMPLES = [
+  {id:5262163,lon:-88.2333,lat:37.5349,Ce:43,La:21,Dy:3.1,Sc:4.8,Th:7},
+  {id:5262164,lon:-88.2324,lat:37.5714,Ce:79,La:24,Dy:0,Sc:4,Th:11},
+  {id:5262165,lon:-88.2994,lat:37.5769,Ce:28,La:14,Dy:0.6,Sc:5.5,Th:5},
+  {id:5262166,lon:-88.3332,lat:37.5886,Ce:13,La:10,Dy:1.3,Sc:5.9,Th:4},
+  {id:5262167,lon:-88.3639,lat:37.5892,Ce:47,La:21,Dy:0.4,Sc:2.5,Th:8},
+  {id:5262168,lon:-88.4055,lat:37.5606,Ce:62,La:27,Dy:12.5,Sc:3.2,Th:18},
+  {id:5262169,lon:-88.4033,lat:37.5047,Ce:42,La:15,Dy:0.3,Sc:8.1,Th:5},
+  {id:5262170,lon:-88.3757,lat:37.4641,Ce:64,La:30,Dy:0.7,Sc:7.1,Th:9},
+  {id:5262171,lon:-88.3579,lat:37.4473,Ce:74,La:25,Dy:0,Sc:6.6,Th:5},
+  {id:5262172,lon:-88.3734,lat:37.4261,Ce:39,La:18,Dy:0.4,Sc:9.2,Th:6},
+  {id:5262173,lon:-88.3458,lat:37.4844,Ce:25,La:11,Dy:0.8,Sc:6.1,Th:7},
+  {id:5262174,lon:-88.3412,lat:37.5460,Ce:98,La:28,Dy:0.5,Sc:5.3,Th:11},
+  {id:5262175,lon:-88.2846,lat:37.5418,Ce:39,La:11,Dy:0,Sc:1.3,Th:5},
+  {id:5262176,lon:-88.2876,lat:37.5112,Ce:44,La:24,Dy:0,Sc:3.2,Th:8},
+  {id:5262177,lon:-88.3181,lat:37.4470,Ce:60,La:16,Dy:0,Sc:7.4,Th:7},
+  {id:5262335,lon:-88.5004,lat:37.3571,Ce:54,La:22,Dy:0,Sc:5.4,Th:9},
+  {id:5262336,lon:-88.5166,lat:37.4038,Ce:60,La:23,Dy:0.4,Sc:5.9,Th:0},
+  {id:5262337,lon:-88.5213,lat:37.4484,Ce:55,La:20,Dy:5.1,Sc:3.6,Th:7},
+  {id:5262348,lon:-88.4970,lat:37.4413,Ce:20,La:16,Dy:0.6,Sc:4.5,Th:4},
+  {id:5262349,lon:-88.4654,lat:37.4484,Ce:0,La:2,Dy:0.3,Sc:3.9,Th:0},
+  {id:5262350,lon:-88.4208,lat:37.4628,Ce:38,La:18,Dy:0.3,Sc:5.6,Th:7},
+  {id:5262351,lon:-88.4467,lat:37.4851,Ce:24,La:20,Dy:0.1,Sc:3.7,Th:3},
+  {id:5262352,lon:-88.4836,lat:37.5350,Ce:58,La:28,Dy:0.9,Sc:5.5,Th:6},
+  {id:5262353,lon:-88.4280,lat:37.5581,Ce:20,La:8,Dy:0.4,Sc:2,Th:4},
+  {id:5262354,lon:-88.4345,lat:37.5811,Ce:37,La:15,Dy:0.3,Sc:6.1,Th:5},
+  {id:5262355,lon:-88.5089,lat:37.5710,Ce:28,La:15,Dy:0,Sc:7.7,Th:4},
+  {id:5262633,lon:-88.2369,lat:37.3500,Ce:29,La:0,Dy:0.3,Sc:1.6,Th:5},
+  {id:5262634,lon:-88.2369,lat:37.3500,Ce:23,La:10,Dy:0,Sc:1,Th:2},
+  {id:5262635,lon:-88.2378,lat:37.3238,Ce:55,La:0,Dy:0.7,Sc:3.8,Th:9},
+  {id:5262636,lon:-88.2378,lat:37.3238,Ce:44,La:17,Dy:0,Sc:3,Th:9},
+  {id:5262637,lon:-88.2756,lat:37.3568,Ce:30,La:0,Dy:1.7,Sc:2.8,Th:5},
+  {id:5262638,lon:-88.2756,lat:37.3568,Ce:17,La:9,Dy:0,Sc:1,Th:2},
+  {id:5262639,lon:-88.3010,lat:37.3900,Ce:61,La:0,Dy:0.6,Sc:8.6,Th:9},
+  {id:5262640,lon:-88.3010,lat:37.3900,Ce:54,La:24,Dy:0,Sc:5,Th:4},
+  {id:5262641,lon:-88.3145,lat:37.4166,Ce:83,La:0,Dy:1.2,Sc:10.2,Th:11},
+  {id:5262642,lon:-88.3145,lat:37.4166,Ce:83,La:35,Dy:0,Sc:10,Th:8},
+  {id:5262643,lon:-88.2791,lat:37.4243,Ce:55,La:0,Dy:0,Sc:5.8,Th:6},
+  {id:5262644,lon:-88.2791,lat:37.4243,Ce:50,La:22,Dy:0,Sc:4,Th:4},
+  {id:5262645,lon:-88.2601,lat:37.3829,Ce:59,La:0,Dy:0.5,Sc:4.2,Th:10},
+  {id:5262646,lon:-88.2601,lat:37.3829,Ce:56,La:23,Dy:0,Sc:4,Th:6},
+  {id:5262724,lon:-88.4750,lat:37.3184,Ce:65,La:29,Dy:4.2,Sc:6.3,Th:8},
+  {id:5262725,lon:-88.4245,lat:37.3638,Ce:87,La:21,Dy:0,Sc:5.2,Th:7},
+  {id:5262726,lon:-88.4287,lat:37.3903,Ce:50,La:31,Dy:1.9,Sc:7.2,Th:9},
+  {id:5262727,lon:-88.3911,lat:37.3878,Ce:53,La:27,Dy:6.7,Sc:5.1,Th:5},
+  {id:5262728,lon:-88.3529,lat:37.3411,Ce:85,La:16,Dy:0,Sc:3.1,Th:11},
+];
+
+if (!layers.nure) layers.nure = [];
+NURE_SAMPLES.forEach(s => {
+  const ceNorm = Math.min(s.Ce / 100, 1);
+  const r = Math.min(255, Math.floor(ceNorm * 510));
+  const g = Math.min(255, Math.floor((1 - ceNorm) * 400));
+  const pinColor = Cesium.Color.fromBytes(r, g, 40, 230);
+  const pin = viewer.entities.add({
+    position: Cesium.Cartesian3.fromDegrees(s.lon, s.lat, 0),
+    point: { pixelSize: 10, color: pinColor, outlineColor: Cesium.Color.WHITE, outlineWidth: 1.5, heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, disableDepthTestDistance: Number.POSITIVE_INFINITY },
+    label: {
+      text: `NURE #${s.id}\nCe:${s.Ce} La:${s.La} Dy:${s.Dy} Sc:${s.Sc} ppm`,
+      font: '600 9px monospace', fillColor: Cesium.Color.WHITE, outlineColor: Cesium.Color.BLACK, outlineWidth: 2, style: Cesium.LabelStyle.FILL_AND_OUTLINE, verticalOrigin: Cesium.VerticalOrigin.BOTTOM, pixelOffset: new Cesium.Cartesian2(0, -14), disableDepthTestDistance: Number.POSITIVE_INFINITY, distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 15000), showBackground: true, backgroundColor: Cesium.Color.fromCssColorString('#0a0c10').withAlpha(0.85),
+    },
+    properties: {
+      type: 'NURE Stream Sediment', name: `NURE HSSR #${s.id}`,
+      body: `<strong>USGS NURE-HSSR Sample</strong><br>Collected: 1978 · Savannah River Lab (DOE)<br><br><strong style="color:#ff9900;">Cerium (Ce):</strong> ${s.Ce} ppm<br><strong style="color:#ffcc00;">Lanthanum (La):</strong> ${s.La} ppm<br><strong style="color:#ff4444;">Dysprosium (Dy):</strong> ${s.Dy} ppm<br><strong style="color:#44ccff;">Scandium (Sc):</strong> ${s.Sc} ppm<br><strong style="color:#aaaaaa;">Thorium (Th):</strong> ${s.Th} ppm<br><br><em style="font-size:9px;color:#888;">Source: mrdata.usgs.gov/nure/sediment/${s.id}</em>`
     }
   });
+  pin.show = false;
+  layers.nure.push(pin);
+});
 
-  // ── LOAD HARDCODED EARTH MRI REGIONS ──────────────────────────────────
-  function addEarthMRIPolygon(name, coords) {
-    const polygon = viewer.entities.add({
-      name: name,
-      polygon: {
-        hierarchy: Cesium.Cartesian3.fromDegreesArray(coords),
-        material: Cesium.Color.fromCssColorString('#ff9900').withAlpha(0.15),
-        outline: true,
-        outlineColor: Cesium.Color.fromCssColorString('#ff9900')
-      }
-    });
-    layers.earthmri.push(polygon);
-  }
+viewer.camera.flyTo({
+  destination: Cesium.Cartesian3.fromDegrees(-88.3582, 37.4059, 25000.0),
+  orientation: { heading: Cesium.Math.toRadians(0.0), pitch: Cesium.Math.toRadians(-90.0) }
+});
 
-  addEarthMRIPolygon('Earth MRI: Hicks Dome Area', [
-    -87.8389, 36.8648,
-    -88.8554, 36.8533,
-    -88.8840, 38.0060,
-    -87.8518, 38.0180,
-    -87.8389, 36.8648
-  ]);
-
-  addEarthMRIPolygon('Earth MRI: SE Missouri / W Illinois', [
-    -89.8645, 38.2788,
-    -89.9195, 36.9594,
-    -89.9215, 36.9574,
-    -91.6459, 36.9896,
-    -91.6490, 36.9926,
-    -91.6248, 38.3118,
-    -91.6228, 38.3138,
-    -91.2935, 38.3094,
-    -91.2910, 38.3078,
-    -91.2981, 38.0015,
-    -91.2956, 37.9999,
-    -90.8998, 37.9935,
-    -90.8907, 38.3025,
-    -90.4066, 38.2932,
-    -89.8645, 38.2788
-  ]);
-
-// ── FLY TO LOCATIONS ─────────────────────────────────────────────────
-const flyTargets = {
-  overview: { lon: SITE.propCenter.lon, lat: SITE.propCenter.lat, height: 1800, heading: 0, pitch: -90 }, // Focus on parcel
-  dubois:   { lon: SITE.dubois.lon, lat: SITE.dubois.lat, height: 400, heading: 0, pitch: -90 },
-  indiana:  { lon: SITE.indiana.lon, lat: SITE.indiana.lat, height: 400, heading: 0, pitch: -90 },
-  cores:    { lon: SITE.propCenter.lon, lat: SITE.propCenter.lat, height: 600, heading: 0, pitch: -90 },
-  hicksdome:{ lon: SITE.hicksDome.lon, lat: SITE.hicksDome.lat, height: 4500, heading: 0, pitch: -90 },
-  regional: { lon: -88.37, lat: 37.42, height: 18000, heading: 0, pitch: -90 },
-};
-
-window.flyTo = function(target) {
-  const t = flyTargets[target];
-  if (!t) return;
-  const currentHeight = viewer.camera.positionCartographic.height || 1000;
-  const maxH = Math.max(currentHeight, t.height) + 100;
-
-  viewer.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(t.lon, t.lat, t.height),
-    orientation: {
-      heading: Cesium.Math.toRadians(t.heading),
-      pitch: Cesium.Math.toRadians(t.pitch),
-      roll: 0
-    },
-    duration: 1.8,
-    maximumHeight: maxH,
-    pitchAdjustHeight: maxH,
-    easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT
-  });
-};
-
-// ── ONSCREEN NAVIGATION CONTROLS ─────────────────────────────────────
-window.zoomMap = function(amount) {
-  const amt = viewer.camera.positionCartographic.height * 0.5;
-  if (amount < 0) viewer.camera.zoomIn(amt);
-  else viewer.camera.zoomOut(amt);
-};
-window.panMap = function(dir) {
-  const amt = viewer.camera.positionCartographic.height * 0.2;
-  if (dir === 'up') viewer.camera.moveUp(amt);
-  if (dir === 'down') viewer.camera.moveDown(amt);
-  if (dir === 'left') viewer.camera.moveLeft(amt);
-  if (dir === 'right') viewer.camera.moveRight(amt);
-};
-
-  // Handle dynamically uploaded KML/KMZ Data Files
-  const kmzInput = document.getElementById('kmz-upload');
-  const uploadStatus = document.getElementById('upload-status');
-  
-  if(kmzInput) {
-    kmzInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      
-      uploadStatus.innerText = 'Loading ' + file.name + '...';
-      uploadStatus.style.color = '#e8c97a';
-
-      viewer.dataSources.add(Cesium.KmlDataSource.load(file, {
-        camera: viewer.scene.camera,
-        canvas: viewer.scene.canvas,
-        clampToGround: true
-      })).then(function(dataSource) {
-        uploadStatus.innerText = 'Loaded Successfully!';
-        uploadStatus.style.color = '#4caf50';
-      }).catch(function(error) {
-        uploadStatus.innerText = 'Error loading file.';
-        uploadStatus.style.color = 'red';
-        console.error('Error loading KMZ:', error);
-      });
-    });
-  }
-
-// ── LAYER VISIBILITY ─────────────────────────────────────────────────
 function toggleLayer(name, el) {
   const visible = el.classList.toggle('active');
   layers[name].forEach(e => { e.show = visible; });
 }
 
-// Removed duplicate flyTo block
-
-// ── UNDERGROUND X-RAY ────────────────────────────────────────────────
-let underground = false;
 window.toggleUnderground = function() {
   underground = !underground;
   viewer.scene.globe.translucency.enabled = underground;
-  if(underground) {
-    viewer.scene.globe.translucency.frontFaceAlphaByDistance = new Cesium.NearFarScalar(50.0, 0.4, 3000.0, 1.0);
-    viewer.scene.globe.undergroundColor = Cesium.Color.fromCssColorString('#120a1c').withAlpha(0.9);
-  } else {
-    viewer.scene.globe.translucency.frontFaceAlphaByDistance = undefined;
-  }
 };
 
-// ── MULTIPLE SYNCED VIEWS (DUAL VIEW) ────────────────────────────────
-let viewer2 = null;
-let dualViewActive = false;
-function syncCameras() {
-  if (!viewer2 || !dualViewActive) return;
-  viewer2.camera.setView({
-    destination: viewer.camera.positionWC,
-    orientation: {
-      heading: viewer.camera.heading,
-      pitch: viewer.camera.pitch,
-      roll: viewer.camera.roll
-    }
-  });
-}
-
-window.toggleSplitScreen = function() {
-  const c1 = document.getElementById('cesiumContainer');
-  const c2 = document.getElementById('cesiumContainer2');
-  dualViewActive = !dualViewActive;
-
-  if (dualViewActive) {
-    c1.style.width = '50%';
-    c2.style.display = 'block';
-    c2.style.width = '50%';
-    
-    if (!viewer2) {
-      viewer2 = new Cesium.Viewer('cesiumContainer2', {
-        sceneMode: Cesium.SceneMode.SCENE2D, // Usually a top-down sync map
-        baseLayerPicker: false, geocoder: false, homeButton: false,
-        infoBox: false, selectionIndicator: false, navigationHelpButton: false,
-        timeline: false, animation: false, fullscreenButton: false
-      });
-      viewer.camera.changed.addEventListener(syncCameras);
-      viewer.scene.preRender.addEventListener(syncCameras);
-    }
-    syncCameras(); // Force instant sync
-  } else {
-    c1.style.width = '100%';
-    c2.style.display = 'none';
-  }
+window.toggleDroneMode = function() {
+  if(window.toggleDroneSimulation) window.toggleDroneSimulation();
 };
-
-// ── VIEW MODE & ORBIT LOCK ───────────────────────────────────────────
-function setView(mode) {
-  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-  if (mode === '3d') {
-    document.getElementById('btn3d').classList.add('active');
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat, 1800),
-      orientation: { heading: 0, pitch: Cesium.Math.toRadians(-35), roll: 0 },
-      duration: 1.5,
-    });
-  } else {
-    document.getElementById('btn2d').classList.add('active');
-    viewer.camera.flyTo({
-      destination: Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat, 2200),
-      orientation: { heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0 },
-      duration: 1.5,
-    });
-  }
-}
-
-let isOrbitLocked = false;
-window.toggleOrbitLock = function() {
-  isOrbitLocked = !isOrbitLocked;
-  if(isOrbitLocked) {
-    // Dynamically lock the core 3D camera to strictly track the precise parcel center 
-    // This perfectly emulates the familiar "Cesium Stories" spherical orbiting mechanics!
-    viewer.trackedEntity = propPin;
-  } else {
-    viewer.trackedEntity = undefined;
-  }
-};
-
-// ── IMAGERY TOGGLE ───────────────────────────────────────────────────
-let satOn = true;
-function toggleImagery() {
-  satOn = !satOn;
-  const layers_ = viewer.imageryLayers;
-  const base = layers_.get(0);
-  base.show = satOn;
-  document.getElementById('btnsat').classList.toggle('active', satOn);
-}
-
-// ── CLICK HANDLER ────────────────────────────────────────────────────
-viewer.screenSpaceEventHandler.setInputAction(movement => {
-  const picked = viewer.scene.pick(movement.position);
-  if (picked && picked.id && picked.id.properties) {
-    const p = picked.id.properties;
-    showDetail(p.name._value, p.type._value, p.body._value);
-  }
-}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
-function showDetail(name, type, body) {
-  document.getElementById('detail-title').textContent = name;
-  document.getElementById('detail-type').textContent = type;
-  document.getElementById('detail-body').textContent = body;
-  document.getElementById('detail-card').classList.add('visible');
-}
-function closeDetail() {
-  document.getElementById('detail-card').classList.remove('visible');
-}
-
-// ── COORDINATE DISPLAY ───────────────────────────────────────────────
-const coordHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-coordHandler.setInputAction(movement => {
-  const cartesian = viewer.camera.pickEllipsoid(movement.endPosition, viewer.scene.globe.ellipsoid);
-  if (cartesian) {
-    const carto = Cesium.Cartographic.fromCartesian(cartesian);
-    const lon = Cesium.Math.toDegrees(carto.longitude).toFixed(5);
-    const lat = Cesium.Math.toDegrees(carto.latitude).toFixed(5);
-    const elev = Math.round(carto.height);
-    document.getElementById('coord-display').textContent = `${lat}°N  ${Math.abs(lon)}°W  ${elev}m elev`;
-  }
-}, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-
-// ── INITIAL CAMERA ───────────────────────────────────────────────────
-// Center exactly on the 40-acre property instantly, top-down! 
-// This gives the exact 2D projection feel while allowing 3D Terrain & Bathymetry to render instantly!
-viewer.camera.setView({
-  destination: Cesium.Cartesian3.fromDegrees(SITE.propCenter.lon, SITE.propCenter.lat, 1200), // Height 1200 shows exactly the 40-acre box
-  orientation: {
-    heading: 0,
-    pitch: Cesium.Math.toRadians(-90), // LOOKING PERFECTLY OUT-DOWN (2D PERSPECTIVE)
-    roll: 0
-  }
-});
-
-// ── SYNC HTML LAYER VISIBILITY ON LOAD ───────────────────────────────
-setTimeout(() => {
-  document.querySelectorAll('.layer-toggle').forEach(el => {
-    const name = el.getAttribute('data-layer');
-    if (!el.classList.contains('active') && layers[name]) {
-      layers[name].forEach(e => { e.show = false; });
-    }
-  });
-}, 2000);
-
-// ── SUN LIGHTING ─────────────────────────────────────────────────────
-viewer.scene.globe.enableLighting = false; // DISABLED: Prevented sunrise/sunset yellow/orange atmospheric tint!
-viewer.scene.sun = new Cesium.Sun();
-
-let lightingEnabled = false;
-window.toggleLighting = function() {
-  lightingEnabled = !lightingEnabled;
-  viewer.scene.globe.enableLighting = lightingEnabled;
-};
-
-// ── COORDINATE RENDERER ──────────────────────────────────────────────

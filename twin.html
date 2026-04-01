@@ -1,21 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="en"><head><style>.cesium-animation-rectButton .cesium-animation-buttonGlow { filter: url(#animation_blurred); }.cesium-animation-rectButton .cesium-animation-buttonMain { fill: url(#animation_buttonNormal); }.cesium-animation-buttonToggled .cesium-animation-buttonMain { fill: url(#animation_buttonToggled); }.cesium-animation-rectButton:hover .cesium-animation-buttonMain { fill: url(#animation_buttonHovered); }.cesium-animation-buttonDisabled .cesium-animation-buttonMain { fill: url(#animation_buttonDisabled); }.cesium-animation-shuttleRingG .cesium-animation-shuttleRingSwoosh { fill: url(#animation_shuttleRingSwooshGradient); }.cesium-animation-shuttleRingG:hover .cesium-animation-shuttleRingSwoosh { fill: url(#animation_shuttleRingSwooshHovered); }.cesium-animation-shuttleRingPointer { fill: url(#animation_shuttleRingPointerGradient); }.cesium-animation-shuttleRingPausePointer { fill: url(#animation_shuttleRingPointerPaused); }.cesium-animation-knobOuter { fill: url(#animation_knobOuter); }.cesium-animation-knobInner { fill: url(#animation_knobInner); }</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Allerion Intelligence — Critical Mineral Map · Hardin County IL</title>
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Cesium.js"></script>
-<link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet"/>
-<link href="css/styles.css" rel="stylesheet"/>
-</head>
-<body>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.114/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<style>
+      #drone-hud {
+        position: fixed; top: 60px; right: 20px; z-index: 10000;
+        background: rgba(4,5,6,0.92); border: 1px solid rgba(74,240,200,0.4);
+        padding: 12px 16px; font-family: monospace; font-size: 11px;
+        color: #ccc; min-width: 220px; backdrop-filter: blur(10px);
+        display: none; border-radius: 4px;
+      }
+      #drone-hud.active { display: block; }
+      .hud-row { display: flex; justify-content: space-between; padding: 3px 0; }
+      .hud-key { color: #4af0c8; font-weight: 700; font-size: 10px; }
+      .hud-val { color: #fff; font-weight: 700; }
+      .hud-divider { border-top: 1px solid rgba(74,240,200,0.2); margin: 8px 0; }
+      .hud-controls { font-size: 9px; color: #888; line-height: 1.8; }
+      .hud-btn {
+        display: block; width: 100%; margin-top: 6px; padding: 8px;
+        background: #0a1a10; color: #4af0c8; border: 1px solid #4af0c8;
+        font-family: monospace; font-size: 10px; font-weight: 700;
+        cursor: pointer; text-align: center; letter-spacing: 0.1em;
+      }
+      .hud-btn:hover { background: #1a3a20; }
+    </style></head>
+<body class="">
 
 <button id="mobile-toggle" onclick="document.getElementById('ui').classList.toggle('open')">☰ MENU</button>
 
 <div id="ui">
   <div id="ui-header">
     <div><span class="pulse"></span><span class="live-tag">ISGS · EARTH MRI · SECTION 19 T12S R8E</span></div>
-    <h1>Critical Mineral Map<br/><em>Allerion Land · Hardin Co. IL</em></h1>
+    <h1>Critical Mineral Map<br><em>Allerion Land · Hardin Co. IL</em></h1>
   </div>
   <div class="section-label">▸ Map Layers</div>
   <div class="layer-toggle" style="--c:#c9a84c" data-layer="mines" onclick="toggleLayer('mines',this)">
@@ -62,6 +82,14 @@
     <div class="layer-dot" style="background:#ff9900"></div>
     <span class="layer-label">Earth MRI Project Areas</span>
   </div>
+  <div class="layer-toggle" style="--c:#00ccaa" data-layer="tilesets" onclick="toggleLayer('tilesets',this)">
+    <div class="layer-dot" style="background:#00ccaa; opacity: 1.0;"></div>
+    <span class="layer-label">3D Tilesets (Ion Assets)</span>
+  </div>
+  <div class="layer-toggle" style="--c:#ff8822" data-layer="nure" onclick="toggleLayer('nure',this)">
+    <div class="layer-dot" style="background:#ff8822; opacity: 1.0;"></div>
+    <span class="layer-label">NURE Geochemistry (45 Samples)</span>
+  </div>
 
   <div class="section-label">▸ Fly To</div>
   <button class="fly-btn" onclick="flyTo('overview')"><span>🌍</span>Overview — Full Site</button>
@@ -73,12 +101,12 @@
 
   <div id="ui-content">
     <div id="brand-logo">Allerion Intelligence</div>
-    <div class="subtitle">Earth MRI & USGS Geophysics</div>
+    <div class="subtitle">Earth MRI &amp; USGS Geophysics</div>
 
     <!-- Vertical Exaggeration Slider -->
     <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(201,168,76,0.3);">
       <div style="font-size: 11px; margin-bottom: 5px; color: #a89467; font-weight: bold;">TERRAIN HEIGHT (EXAGGERATION): <span id="exag-val" style="color: #fff;">2.5</span>x</div>
-      <input type="range" id="exaggeration-slider" min="1" max="5" step="0.5" value="2.5" style="width:100%; cursor: pointer;" oninput="document.getElementById('exag-val').innerText = parseFloat(this.value).toFixed(1); viewer.scene.verticalExaggeration = parseFloat(this.value);" />
+      <input type="range" id="exaggeration-slider" min="1" max="5" step="0.5" value="2.5" style="width:100%; cursor: pointer;" oninput="document.getElementById('exag-val').innerText = parseFloat(this.value).toFixed(1); viewer.scene.verticalExaggeration = parseFloat(this.value);">
     </div>
 
     <!-- Active Layers -->
@@ -105,10 +133,10 @@
   <!-- Integration to Landing Page with Tactical Logo -->
   <a href="index.html" class="view-btn" style="background:#090a0f; color:#9da2a6; border-color:#333; text-decoration:none; margin-right:1rem; display:flex; align-items:center; gap: 8px;">
         <svg viewBox="0 -5 160 55" style="height: 18px; fill: none; stroke-linecap: square;">
-            <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="10"/>
-            <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="10" stroke-linejoin="miter"/>
-            <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="10"/>
-            <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="10"/>
+            <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="10"></path>
+            <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="10" stroke-linejoin="miter"></path>
+            <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="10"></path>
+            <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="10"></path>
         </svg>
         <span>GENESIS CONTROL</span>
   </a>
@@ -120,6 +148,7 @@
   <button class="view-btn" style="background:#2b1a10; color:#e8c97a; border-color:#c9a84c;" onclick="window.toggleSplitScreen()">◫ Dual Sync View</button>
   <button class="view-btn" style="background:#101a2b; color:#4af0c8; border-color:#4af0c8;" onclick="window.toggleUnderground()">👁️ X-Ray</button>
   <button class="view-btn" style="background:#2b2b10; color:#ffff00; border-color:#ffff00;" onclick="window.toggleLighting()">☀️ Sunlight</button>
+  <button class="view-btn" id="drone-btn" style="background:#0a1a10; color:#4af0c8; border-color:#4af0c8; font-weight:bold; animation: dronePulse 2s infinite;" onclick="window.toggleDroneMode()">🛸 DRONE SIM</button>
   <span id="coord-display">Hover over map for coordinates</span>
 </div>
 
@@ -150,5 +179,11 @@
 </div>
 
 <script src="js/app.js"></script>
-</body>
-</html>
+<script src="js/drone.js"></script>
+<style>
+@keyframes dronePulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(74,240,200,0.3); }
+  50% { box-shadow: 0 0 15px rgba(74,240,200,0.6); }
+}
+</style>
+</body></html>
