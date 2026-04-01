@@ -200,9 +200,7 @@
   }
 
   // Initial welcome message
-  addMessage('system', 'system');
-  var welcome = document.querySelector('.copilot-msg-system');
-  if (welcome) welcome.textContent = '— SESSION STARTED —';
+  addMessage('— SESSION STARTED —', 'system');
   addMessage('👋 Welcome to the Allerion Geospatial Copilot.\n\nI can help you navigate the digital twin, explore geological data, control map layers, and answer questions about this 40-acre critical mineral property.\n\nTry "help" for a full list of commands.', 'bot');
 
   window.copilotSend = function() {

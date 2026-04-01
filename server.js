@@ -39,7 +39,7 @@ app.post('/api/copilot', (req, res) => {
     // while keeping the Cesium command execution on the client.
     res.json({
         received: message,
-        hint: 'Query processed client-side by copilot.js. To enable server-side AI, configure COPILOT_AI_KEY in environment and extend this endpoint.',
+        hint: 'Query processed client-side by copilot.js. This endpoint can be extended to proxy to an external AI API for enhanced responses.',
         timestamp: new Date().toISOString(),
     });
 });
