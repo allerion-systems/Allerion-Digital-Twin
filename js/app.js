@@ -22,6 +22,9 @@ Cesium.createWorldTerrainAsync({ requestWaterMask: true, requestVertexNormals: t
 viewer.scene.globe.depthTestAgainstTerrain = true;
 viewer.scene.verticalExaggeration = 2.5;
 const layers = { mines:[], cores:[], veins:[], hree:[], lree:[], property:[], hicksdome:[], earthmri:[], interpolation:[], buildings:[], pointcloud:[], tilesets:[], nure:[] };
+// Expose for the Genesis AI tool dispatcher (js/twin-tools.js).
+window.layers = layers;
+window.viewer = viewer;
 Cesium.createOsmBuildingsAsync().then(b => { layers.buildings.push(b); viewer.scene.primitives.add(b); b.show = true; });
 Cesium.createGooglePhotorealistic3DTileset().then(t => { layers.pointcloud.push(t); viewer.scene.primitives.add(t); t.show = true; });
 const C = { gold: Cesium.Color.GOLD, elec: Cesium.Color.CYAN, red: Cesium.Color.RED, blue: Cesium.Color.BLUE };
