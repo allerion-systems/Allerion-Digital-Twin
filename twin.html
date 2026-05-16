@@ -130,12 +130,22 @@
   <button class="view-btn" style="background:#101a2b; color:#4af0c8; border-color:#4af0c8;" onclick="window.toggleUnderground()">👁️ X-Ray</button>
   <button class="view-btn" style="background:#2b2b10; color:#ffff00; border-color:#ffff00;" onclick="window.toggleLighting()">☀️ Sunlight</button>
   <button class="view-btn" id="drone-btn" style="background:#0a1a10; color:#4af0c8; border-color:#4af0c8; font-weight:bold; animation: dronePulse 2s infinite;" onclick="window.toggleDroneMode()">🛸 DRONE SIM</button>
+  <button class="view-btn" id="genesis-btn" style="background:#0c0e10; color:#5a6850; border-color:#5a6850; font-weight:bold;" onclick="document.getElementById('genesis-ai')?.classList.toggle('ga-min')">▣ GENESIS AI</button>
   <span id="coord-display">Hover over map for coordinates</span>
 </div>
 <div id="cesiumContainer"></div>
 <div id="cesiumContainer2" style="display:none; border-left: 2px solid #4af0c8;"></div>
 <script src="js/app.js"></script>
 <script src="js/drone.js"></script>
+<script src="js/twin-tools.js"></script>
+<script src="js/bim-loader.js"></script>
+<script>
+  // Point Genesis AI at the LLM Worker. Override per-environment by
+  // setting window.GENESIS_API_BASE before this script runs (e.g. on
+  // GitHub Pages, set it to the deployed Worker URL).
+  window.GENESIS_API_BASE = window.GENESIS_API_BASE || "";
+</script>
+<script src="js/genesis-ai.js"></script>
 <div id="drone-hud">
     <div class="hud-row"><span class="hud-key">STATUS</span><span class="hud-val" id="hud-status">STANDBY</span></div>
     <div class="hud-row"><span class="hud-key">ALT</span><span class="hud-val" id="hud-alt">—</span></div>
