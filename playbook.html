@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALLERION LLC / MONETIZATION PLAYBOOK — Ranked Action Set</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #040506;
+            --surface: rgba(12, 14, 16, 0.9);
+            --border: rgba(90, 104, 80, 0.4);
+            --primary: #f5f6f8;
+            --accent: #5a6850;
+            --silver: #9da2a6;
+            --text-main: #d1d5db;
+            --text-muted: #6b7280;
+            --warn: #c9a84c;
+            --hot: #e85050;
+            --gold: #e8c97a;
+            --font-ui: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2rem 5%; border-bottom: 1px solid var(--border);
+            background: #040506; position: fixed; top: 0; width: 100%; z-index: 1000;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.2em; color: var(--primary); text-decoration: none; display: flex; align-items: center;}
+        .logo span { color: var(--silver); }
+        .clearance-badge {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent);
+            border: 1px solid var(--accent); padding: 0.2rem 0.6rem;
+            text-transform: uppercase; letter-spacing: 0.1em; background: rgba(90,104,80,0.1);
+        }
+
+        .hero { padding: 10rem 10% 3rem; position: relative; }
+        .hero::before {
+            content: ''; position: absolute; left: 10%; top: 30%; width: 1px; height: 50%;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+        }
+        .hero-tag { font-family: var(--font-mono); color: var(--accent); letter-spacing: 0.3em; margin-bottom: 1.5rem; display: block;}
+        .hero h1 { font-size: 4rem; font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem; color: var(--primary); letter-spacing: -0.02em; }
+        .hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 760px; line-height: 1.6; margin-bottom: 1.5rem; }
+        .hero-disclaimer {
+            font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent);
+            max-width: 760px; margin-bottom: 2rem; border-left: 2px solid var(--accent);
+            padding-left: 1rem; line-height: 1.5;
+        }
+
+        /* The Hero callout — The single move */
+        .singular-move {
+            margin: 0 10% 4rem; padding: 2.5rem 3rem;
+            background: linear-gradient(135deg, rgba(232, 201, 122, 0.06), rgba(90, 104, 80, 0.04));
+            border: 1px solid var(--gold);
+            position: relative;
+        }
+        .singular-move::before {
+            content: 'SINGLE HIGHEST-ROI ACTION'; position: absolute; top: -0.65rem; left: 2rem;
+            background: var(--bg); padding: 0 0.8rem;
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold); letter-spacing: 0.25em;
+        }
+        .singular-move h2 {
+            font-size: 1.8rem; color: var(--primary); margin-bottom: 1rem; font-weight: 800; line-height: 1.2;
+        }
+        .singular-move p { color: var(--text-main); line-height: 1.65; margin-bottom: 1rem; font-size: 1rem; }
+        .singular-move p:last-child { margin-bottom: 0; }
+        .singular-move strong { color: var(--gold); }
+        .move-uplift {
+            display: flex; align-items: center; gap: 1.5rem; margin-top: 1.5rem;
+            font-family: var(--font-mono); flex-wrap: wrap;
+        }
+        .uplift-from, .uplift-to {
+            background: rgba(0,0,0,0.4); padding: 0.8rem 1.2rem; border: 1px solid var(--border);
+        }
+        .uplift-label { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.15em; display: block; margin-bottom: 0.25rem; }
+        .uplift-val { font-size: 1.2rem; color: var(--primary); font-weight: 700; }
+        .uplift-arrow { color: var(--gold); font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; }
+        .uplift-to .uplift-val { color: var(--gold); }
+        .uplift-mult {
+            color: var(--accent); font-size: 0.85rem; letter-spacing: 0.15em; font-weight: 700;
+        }
+
+        /* Sections */
+        section.block {
+            padding: 4rem 10% 3rem; border-top: 1px solid var(--border);
+        }
+        section.block.alt { background: #020202; }
+
+        .section-title {
+            font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;
+            display: flex; align-items: center; gap: 1rem; color: var(--primary);
+            letter-spacing: -0.01em;
+        }
+        .section-title::before {
+            content: ''; width: 24px; height: 24px; background: var(--accent); display: block;
+            clip-path: polygon(0 0, 100% 0, 100% 30%, 30% 30%, 30% 100%, 0 100%);
+        }
+        .section-sub { font-family: var(--font-mono); font-size: 0.75rem; color: var(--silver); letter-spacing: 0.2em; margin-bottom: 2.5rem; margin-left: 40px; text-transform: uppercase; }
+
+        /* Action table */
+        .action-table {
+            width: 100%; border-collapse: collapse;
+            background: var(--surface); border: 1px solid var(--border);
+        }
+        .action-table th {
+            background: rgba(90, 104, 80, 0.15);
+            color: var(--accent); font-family: var(--font-mono); font-size: 0.7rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 1rem 1rem; text-align: left;
+            border-bottom: 1px solid var(--accent);
+        }
+        .action-table td {
+            padding: 1rem; vertical-align: top;
+            border-bottom: 1px dashed rgba(90, 104, 80, 0.25);
+            font-size: 0.92rem; line-height: 1.5;
+        }
+        .action-table tr:last-child td { border-bottom: none; }
+        .action-table td:first-child {
+            font-family: var(--font-mono); color: var(--accent); font-weight: 700;
+            width: 50px; text-align: center; font-size: 0.85rem;
+        }
+        .action-table td strong { color: var(--primary); }
+        .action-table .col-why { color: var(--text-muted); font-size: 0.85rem; }
+        .action-table .pill {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.65rem;
+            padding: 0.2rem 0.5rem; letter-spacing: 0.1em; margin-top: 0.3rem;
+        }
+        .pill-high { background: rgba(90,104,80,0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .pill-med { background: rgba(201,168,76,0.15); color: var(--warn); border: 1px solid var(--warn); }
+        .pill-low { background: rgba(232,80,80,0.12); color: var(--hot); border: 1px solid var(--hot); }
+
+        /* KPI / scenario cards */
+        .scenario-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .scenario {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 1.75rem; position: relative;
+        }
+        .scenario.bull { border-color: var(--gold); }
+        .scenario::after {
+            content:''; position:absolute; top:0; left:0; width:10px; height:10px;
+            border-top:2px solid var(--accent); border-left:2px solid var(--accent);
+        }
+        .scenario.bull::after { border-color: var(--gold); }
+        .scenario-tag {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--silver);
+            letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem;
+        }
+        .scenario.bull .scenario-tag { color: var(--gold); }
+        .scenario-amount {
+            font-family: var(--font-mono); font-size: 1.6rem; color: var(--primary);
+            font-weight: 700; margin-bottom: 0.75rem; line-height: 1.15;
+        }
+        .scenario.bull .scenario-amount { color: var(--gold); }
+        .scenario-amount span { font-size: 0.85rem; color: var(--silver); display: block; margin-top: 0.2rem; font-weight: 400; }
+        .scenario-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.55; }
+
+        /* Skip list */
+        .skip-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .skip-item {
+            padding: 1rem 1.25rem; background: rgba(232, 80, 80, 0.05);
+            border-left: 3px solid rgba(232, 80, 80, 0.6);
+            font-size: 0.9rem; line-height: 1.5;
+        }
+        .skip-item strong { color: var(--hot); display: block; margin-bottom: 0.3rem; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em; }
+        .skip-item span { color: var(--text-muted); font-size: 0.85rem; }
+
+        /* Phase timeline */
+        .phase-timeline { position: relative; padding-left: 2rem; }
+        .phase-timeline::before {
+            content: ''; position: absolute; left: 0.5rem; top: 0.4rem; bottom: 0.4rem;
+            width: 1px; background: var(--accent);
+        }
+        .phase-item { padding-bottom: 1.75rem; position: relative; }
+        .phase-item:last-child { padding-bottom: 0; }
+        .phase-item::before {
+            content: ''; position: absolute; left: -1.6rem; top: 0.3rem; width: 9px; height: 9px;
+            background: var(--bg); border: 2px solid var(--accent);
+        }
+        .phase-meta {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--silver);
+            letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem;
+        }
+        .phase-title { color: var(--primary); font-weight: 700; font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .phase-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; }
+        .phase-desc strong { color: var(--text-main); }
+
+        footer {
+            text-align: center; padding: 3rem; font-family: var(--font-mono);
+            font-size: 0.8rem; color: var(--text-muted);
+            border-top: 1px solid var(--border); background: #020202;
+        }
+
+        @media (max-width: 720px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero, section.block { padding-left: 5%; padding-right: 5%; }
+            .singular-move { margin: 0 5% 3rem; padding: 1.75rem; }
+            .singular-move h2 { font-size: 1.3rem; }
+            nav { padding: 1.25rem 5%; }
+            .action-table { font-size: 0.85rem; }
+            .action-table th, .action-table td { padding: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">
+        <svg viewBox="0 0 160 50" style="height: 35px; fill: none; stroke-linecap: square; margin-right: 12px; transform: translateY(4px);">
+            <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="8"/>
+            <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="8" stroke-linejoin="miter"/>
+            <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="8"/>
+            <path d="M80 5 L 80 45" stroke="#5a6850" stroke-width="4" opacity="0.6"/>
+            <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="8"/>
+        </svg>
+        ALLERION<span>.LLC</span>
+    </a>
+    <div class="clearance-badge">PLAYBOOK · INTERNAL</div>
+</nav>
+
+<section class="hero">
+    <span class="hero-tag">// MONETIZATION PLAYBOOK · 7-DAY / 90-DAY / 12-MONTH</span>
+    <h1>Most Money,<br>Fastest Possible Path.</h1>
+    <p>A single ranked action set synthesized from six parallel research streams covering federal funding, lease &amp; offtake markets, digital-twin IP monetization, securities-based capital raises, strategic acquisition comparables, and sub-90-day cash plays. Every action below is supported by named 2025–2026 transactions or program records.</p>
+    <div class="hero-disclaimer">
+        ⚠ The IKFD comparables, counterparty names, and contact paths referenced in this playbook were current as of research date (May 2026). All capital and valuation figures are pre-feasibility estimates; closing terms depend on independent diligence by each counterparty.
+    </div>
+</section>
+
+<div class="singular-move">
+    <h2>Spend $15&ndash;40K on ICP-MS re-analysis of the four 1944 USBM cores.</h2>
+    <p>Every research stream converged on this single action. Re-assaying the four historical cores (preserved in the ISGS library, Champaign) for HREE content that 1944 instrumentation could not detect is the highest-ROI move available to a solo operator on this asset. The work takes 60&ndash;90 days and unlocks: federal grant credibility (ISGS Earth MRI subcontract), lease-bonus uplift (CleanTech, Ares, Hastie), and the entire outright-sale value ladder.</p>
+    <div class="move-uplift">
+        <div class="uplift-from">
+            <span class="uplift-label">VALUE TODAY (NO ASSAY)</span>
+            <span class="uplift-val">$80&ndash;220K</span>
+        </div>
+        <span class="uplift-arrow">&rArr;</span>
+        <div class="uplift-to">
+            <span class="uplift-label">POST-ASSAY (REGIONAL ANALOG)</span>
+            <span class="uplift-val">$400K&ndash;$2.5M</span>
+        </div>
+        <span class="uplift-mult">5&ndash;11&times; UPLIFT</span>
+    </div>
+</div>
+
+<section class="block">
+    <h2 class="section-title">Week 1 &mdash; Free or Under $100</h2>
+    <div class="section-sub">Do all seven. No prioritization &mdash; they overlap and compound.</div>
+
+    <table class="action-table">
+        <thead>
+            <tr><th>#</th><th>Action</th><th>Why It Matters</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>01</td>
+                <td><strong>Register SAM.gov UEI + CAGE Code.</strong> Apply this week.</td>
+                <td class="col-why">Free, ~10 business days. Prerequisite for every federal program in the playbook (SBIR, DIBC, ISGS subcontract pass-through, Earth MRI).</td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td><strong>Verify the parcel sits in OZ 2.0 eligible tract 17069970900 or 17069971000.</strong> Use opportunityzones.hud.gov.</td>
+                <td class="col-why">If yes, the parcel becomes the wrapper for all future outside-investor capital under the OZ 2.0 designation effective Jan 1, 2027. Lobby IL DCEO during the summer 2026 nomination window.</td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td><strong>Email Dr. Jared Freiburg</strong> (ISGS Critical Minerals lead) proposing a re-log + cooperative sampling agreement on the 1944 USBM cores.</td>
+                <td class="col-why">$25&ndash;150K, 60&ndash;120 days. ISGS already partners with Hicks Dome LLC on adjacent acreage. Builds the assay record needed for everything downstream.</td>
+            </tr>
+            <tr>
+                <td>04</td>
+                <td><strong>Email John Lee, CEO CleanTech Vanadium Mining Corp.</strong> &mdash; info@cleantechvanadium.com &mdash; with a one-page Section 19 teaser (fault, historical mines, clean title, twin link).</td>
+                <td class="col-why">CleanTech consolidated 15,975 ac surrounding Hicks Dome in Aug&ndash;Nov 2025. Your parcel is squarely in their thesis. Highest-probability lease counterparty.</td>
+            </tr>
+            <tr>
+                <td>05</td>
+                <td><strong>Stand up Cal.com + Stripe</strong> with two paid-consult SKUs: $300 / 30-min and $1,200 / 90-min IKFD briefing. Post on LinkedIn + X with twin screenshots. DM 30 mining journalists, buy-side analysts, and junior-miner IR contacts.</td>
+                <td class="col-why">Realistic 2&ndash;4 calls in 30 days = $600&ndash;$4,800 in working capital. Builds inbound funnel for everything else.</td>
+            </tr>
+            <tr>
+                <td>06</td>
+                <td><strong>List the parcel on LandGate</strong> (free) with the digital twin URL embedded.</td>
+                <td class="col-why">Price-discovery layer. Surfaces inbound from juniors and royalty buyers not on your direct outreach list.</td>
+            </tr>
+            <tr>
+                <td>07</td>
+                <td><strong>Order a desktop mineral appraisal</strong> ($500&ndash;1,500 from LandGate or a regional appraiser).</td>
+                <td class="col-why">Unlocks four downstream paths simultaneously: hard-money bridge, ORRI sale, lease-bonus anchor, Reg D PPM valuation.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="block alt">
+    <h2 class="section-title">Days 30&ndash;90 &mdash; Realistic Cash</h2>
+    <div class="section-sub">Ranked by probability &times; dollars. Floor $5&ndash;15K, ceiling $50&ndash;120K if lease lands.</div>
+
+    <table class="action-table">
+        <thead>
+            <tr><th>#</th><th>Path</th><th>Range &amp; Probability</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>01</td>
+                <td><strong>Cold-pitch a lease term sheet</strong> to CleanTech (priority 1), Hastie Mining, Ares Strategic Mining, Energy Fuels. Standard terms: 5-year primary, $150&ndash;300/ac signing bonus, $25&ndash;50/ac annual rental, 3% gross royalty on fluorspar + 2% NSR on REE, $6/T floor (Quarant template).</td>
+                <td class="col-why"><strong>$8&ndash;25K signing bonus + royalty stack</strong> on a clean execution. <span class="pill pill-high">HIGH probability</span> &mdash; CleanTech actively acquiring this exact geography.</td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td><strong>Paid 1:1 consulting</strong> on IKFD / U.S. REE supply chain / digital-twin geology workflows.</td>
+                <td class="col-why">$1.5&ndash;15K over 90 days. <span class="pill pill-high">HIGH probability</span> &mdash; the digital twin is your demonstrable differentiator.</td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td><strong>Hire-out the digital twin</strong> as a paid pitch-deck deliverable for junior TSX-V / CSE explorers ($7,500 fixed-fee, 3-week delivery).</td>
+                <td class="col-why">$5&ndash;40K depending on close rate. <span class="pill pill-med">MEDIUM-HIGH probability</span>. Repeatable; every closed deal becomes a portfolio piece for the next.</td>
+            </tr>
+            <tr>
+                <td>04</td>
+                <td><strong>ISGS data-sharing / Earth MRI subcontract</strong> via Dr. Freiburg.</td>
+                <td class="col-why">$25&ndash;150K, 60&ndash;120 days. <span class="pill pill-med">MEDIUM-HIGH probability</span>. ISGS Earth MRI cooperatives average ~$230K per state in FY25.</td>
+            </tr>
+            <tr>
+                <td>05</td>
+                <td><strong>Family Forest Carbon Program advance</strong> on the surface estate ($200&ndash;800/ac upfront, 20&ndash;40 yr contract).</td>
+                <td class="col-why">$8&ndash;32K. <span class="pill pill-med">MEDIUM probability</span>. Family Forest is the only carbon program that takes 30-ac minimums. Stackable; does not impair mineral rights if explicitly severed.</td>
+            </tr>
+            <tr>
+                <td>06</td>
+                <td><strong>Sell partial core intervals</strong> to SIU-Carbondale, UIUC, or Colorado School of Mines research programs.</td>
+                <td class="col-why">$3&ndash;25K. <span class="pill pill-med">MEDIUM probability</span>. Comparable precedent exists; works best paired with ISGS cooperative.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="block">
+    <h2 class="section-title">6&ndash;12 Months &mdash; The Value-Inflection Track</h2>
+    <div class="section-sub">Run in parallel with the 90-day cash plays. Funded from week-1 cash + appraisal-backed bridge.</div>
+
+    <div class="phase-timeline">
+        <div class="phase-item">
+            <div class="phase-meta">Months 1&ndash;3 &middot; $15&ndash;40K spend &middot; the keystone</div>
+            <div class="phase-title">ICP-MS re-assay of the four 1944 USBM cores</div>
+            <div class="phase-desc">The single highest-ROI action available. Funded from Family Forest advance, ISGS cooperative, or hard-money bridge against the desktop appraisal. <strong>Outcome flips outright value 5&ndash;11&times;.</strong></div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Months 2&ndash;4 &middot; ~90 days to award &middot; non-dilutive</div>
+            <div class="phase-title">DoD SBIR Phase I 26.2 or 26.3</div>
+            <div class="phase-desc">Proposal topic: <em>"AI-augmented digital twin for critical-mineral parcel re-evaluation."</em> The existing twin.html is the working prototype. Working software + a real, drilled, fluorspar/REE-prospective property is rare among SBIR applicants. <strong>$250K.</strong></div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Months 2&ndash;6 &middot; parallel submission</div>
+            <div class="phase-title">DOE SBIR Phase I &mdash; Advanced Mining / Critical Materials topic</div>
+            <div class="phase-desc">Same proposal core, different sponsor. Pair the twin with a geochemistry-modeling angle (HREE-in-diatreme inference workflow). <strong>$200&ndash;275K.</strong></div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Months 3&ndash;6 &middot; teaming letter</div>
+            <div class="phase-title">DIBC RPP-CM-26-02 as feedstock-provider sub</div>
+            <div class="phase-desc">Join the Defense Industrial Base Consortium (free; sign OTA Base Agreement). Position as feedstock sub to a Koura / Solvay / Seaforth prime response. <strong>$100K&ndash;$2M as teammate.</strong></div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Months 4&ndash;9 &middot; university partnership</div>
+            <div class="phase-title">FECM/CMM sub-award via SIUC partnership</div>
+            <div class="phase-desc">Solo LLCs almost never win these directly. Partner with SIU-Carbondale Coal Research Center or UK CAER as a property-access subawardee. The Hardin Co. parcel sitting on both the Illinois Coal Basin AND the Hicks Dome HREE halo is a rare dual-feedstock pitch. <strong>$500K&ndash;$3M as university sub.</strong></div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Months 6&ndash;12 &middot; $15&ndash;25K legal &middot; warm network only</div>
+            <div class="phase-title">Reg D 506(b) PPM &mdash; LLC units + 2&ndash;4% ORRI kicker</div>
+            <div class="phase-desc">After the appraisal and the assay return positive. Target accredited investors in mining-focused family offices, IL/KY/TN agribusiness LPs, USGS-adjacent angels. <strong>$250K&ndash;$2M raise, 30&ndash;60 days from launch to first dollar.</strong></div>
+        </div>
+    </div>
+</section>
+
+<section class="block alt">
+    <h2 class="section-title">12&ndash;24 Months &mdash; The Exit Gate</h2>
+    <div class="section-sub">After a positive ICP-MS return, the comp ladder takes over.</div>
+
+    <div class="phase-timeline">
+        <div class="phase-item">
+            <div class="phase-meta">Decision point &middot; assay returns regional analog or better</div>
+            <div class="phase-title">Outright sale, retained 2.5% NSR</div>
+            <div class="phase-desc">
+                Target acquirers in priority order: <strong>CleanTech Vanadium</strong>, US Critical Materials, USA Rare Earth, Energy Fuels, ReElement / American Resources, NioCorp.
+                Outright price range: <strong>$400K&ndash;$2.5M cash</strong>, structured as cash + retained 2.5% net smelter return royalty (Quarant template).
+                On a 15-year probability-weighted basis, sale + NSR captures ~80% of the lease-only upside while eliminating operator, permitting, and commodity-cycle risk.
+                IKFD has cycled through three boom-bust periods since 1942 and only 10&ndash;15% of historical prospects ever reached production &mdash; "go fast" decisively favors sale.
+            </div>
+        </div>
+        <div class="phase-item">
+            <div class="phase-meta">Decision point &middot; assay returns below detection</div>
+            <div class="phase-title">Fluorspar-only narrative, federal-funded</div>
+            <div class="phase-desc">
+                Fall back to a fluorspar-only lease structure with CleanTech or Hastie at the 2025 IKFD comp range ($150&ndash;300/ac bonus + 3% gross royalty).
+                Federal funding pipeline (SBIR, DIBC sub, ISGS cooperative) continues regardless of REE assay outcome and remains the largest dollar source.
+                Holding cost is $16K/yr per FS-001; the asset is solvent indefinitely.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="block">
+    <h2 class="section-title">Probability-Weighted 12-Month Outcomes</h2>
+    <div class="section-sub">Three scenarios. Pick the path; the numbers follow.</div>
+
+    <div class="scenario-grid">
+        <div class="scenario">
+            <div class="scenario-tag">FLOOR &middot; Week-1 actions only</div>
+            <div class="scenario-amount">$15&ndash;60K<span>over 12 months</span></div>
+            <div class="scenario-desc">Consulting income + one paid twin-services deal + a small lease nibble or Family Forest advance. No assay funded. No federal grants closed. Conservative execution by a part-time operator.</div>
+        </div>
+        <div class="scenario">
+            <div class="scenario-tag">BASE &middot; Lease + ISGS + Assay funded</div>
+            <div class="scenario-amount">$80&ndash;250K<span>over 12 months</span></div>
+            <div class="scenario-desc">Adds: signed lease with a CleanTech-tier counterparty, ISGS Earth MRI subcontract awarded, ICP-MS re-assay completed and funded, desktop mineral appraisal in hand. Full-time operator focus.</div>
+        </div>
+        <div class="scenario bull">
+            <div class="scenario-tag">BULL &middot; Outright sale with retained NSR</div>
+            <div class="scenario-amount">$400K&ndash;$2.5M<span>cash + 2.5% NSR royalty in perpetuity</span></div>
+            <div class="scenario-desc">Assay returns HREE within an order of magnitude of Hicks Dome regional analog. Outright sale closes with CleanTech or USA Rare Earth-class acquirer; 2.5% NSR retained. The full strategic case.</div>
+        </div>
+    </div>
+</section>
+
+<section class="block alt">
+    <h2 class="section-title">Skip Entirely &mdash; Confirmed Dead-Ends</h2>
+    <div class="section-sub">Every entry below was researched and ruled out. Save the calendar time.</div>
+
+    <div class="skip-grid">
+        <div class="skip-item"><strong>QSBS §1202</strong><span>Mineral extraction explicitly excluded under §1202(e)(3). No C-corp conversion benefit.</span></div>
+        <div class="skip-item"><strong>Reg A+ (Mini-IPO)</strong><span>$100K+ legal, 10&ndash;20 week SEC cycle, will not qualify without NI 43-101.</span></div>
+        <div class="skip-item"><strong>TSX-V / CSE RTO (in 2026)</strong><span>CAD $300&ndash;600K all-in, 6&ndash;9 months, sponsor diligence rejects inferred-only resource.</span></div>
+        <div class="skip-item"><strong>Mineral-rights "tokenization" platforms</strong><span>Atomyze, Realio, RealT &mdash; promoter-heavy; no closed inferred hard-rock deals on record.</span></div>
+        <div class="skip-item"><strong>Major royalty streamers</strong><span>Wheaton, Franco-Nevada, Royal Gold, Sandstorm, Triple Flag &mdash; $25M+ minimum, producing assets only.</span></div>
+        <div class="skip-item"><strong>Resource-fund family offices</strong><span>Pala, Sprott, Orion, RCF, EMR &mdash; $10&ndash;50M minimum ticket. Will not screen 40 ac.</span></div>
+        <div class="skip-item"><strong>DPA Title III / LPO Title XVII / EXIM Project Vault / REV Illinois</strong><span>All require NI 43-101 and offtake commitments. Revisit only after assay + maiden resource.</span></div>
+        <div class="skip-item"><strong>Verra / CAR / ACR carbon registries</strong><span>40 ac is below their 100-ac minimums. Only Family Forest Carbon (30-ac min) applies.</span></div>
+        <div class="skip-item"><strong>Wefunder / Republic Reg CF</strong><span>No critical-minerals precedent in 24 months. First-mover risk; net cash unreliable inside 90 days.</span></div>
+        <div class="skip-item"><strong>GSA Schedule fast-track</strong><span>3&ndash;6 months minimum. Solo LLC with no past performance will not win a task order in 90 days.</span></div>
+    </div>
+</section>
+
+<section class="block" style="text-align: center;">
+    <div style="margin-top: 1rem;">
+        <a href="index.html" style="font-family: var(--font-mono); color: var(--silver); text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border-bottom: 1px solid var(--silver); padding-bottom: 0.25rem;">&laquo; Project Genesis</a>
+        <span style="margin: 0 1.5rem; color: var(--text-muted);">&middot;</span>
+        <a href="feasibility.html" style="font-family: var(--font-mono); color: var(--silver); text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border-bottom: 1px solid var(--silver); padding-bottom: 0.25rem;">Feasibility Docket</a>
+        <span style="margin: 0 1.5rem; color: var(--text-muted);">&middot;</span>
+        <a href="twin.html" style="font-family: var(--font-mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 0.25rem;">Launch Digital Twin &raquo;</a>
+    </div>
+</section>
+
+<footer>
+    <p>ALLERION LLC © 2026 &middot; MONETIZATION PLAYBOOK &middot; SYNTHESIZED FROM SIX PARALLEL RESEARCH STREAMS &middot; INTERNAL PLANNING &middot; DO NOT DISTRIBUTE UNLESS AUTHORIZED.</p>
+</footer>
+
+</body>
+</html>
