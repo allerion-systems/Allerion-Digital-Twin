@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALLERION LLC / FEASIBILITY STUDIES — Integrated Business Models</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #040506;
+            --surface: rgba(12, 14, 16, 0.9);
+            --border: rgba(90, 104, 80, 0.4);
+            --primary: #f5f6f8;
+            --accent: #5a6850;
+            --silver: #9da2a6;
+            --text-main: #d1d5db;
+            --text-muted: #6b7280;
+            --warn: #c9a84c;
+            --hot: #e85050;
+            --font-ui: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            overflow-x: hidden;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2rem 5%; border-bottom: 1px solid var(--border);
+            background: #040506; position: fixed; top: 0; width: 100%; z-index: 1000;
+        }
+        .logo-box { display: flex; align-items: center; gap: 1rem; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.2em; color: var(--primary); text-decoration: none; display: flex; align-items: center;}
+        .logo span { color: var(--silver); }
+        .clearance-badge {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent);
+            border: 1px solid var(--accent); padding: 0.2rem 0.6rem; border-radius: 0px;
+            text-transform: uppercase; letter-spacing: 0.1em; background: rgba(90,104,80,0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 10% 4rem; position: relative;
+        }
+        .hero::before {
+            content: ''; position: absolute; left: 10%; top: 30%; width: 1px; height: 50%;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            opacity: 0.7;
+        }
+        .hero-tag { font-family: var(--font-mono); color: var(--accent); letter-spacing: 0.3em; margin-bottom: 1.5rem; display: block;}
+        .hero h1 { font-size: 4rem; font-weight: 800; line-height: 1.05; margin-bottom: 1.5rem; letter-spacing: -0.02em; color: var(--primary); }
+        .hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 760px; line-height: 1.6; margin-bottom: 1.5rem; }
+        .hero-disclaimer { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); max-width: 760px; margin-bottom: 2rem; border-left: 2px solid var(--accent); padding-left: 1rem; line-height: 1.5; }
+
+        /* Index of studies */
+        .study-index {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; padding: 0 10% 4rem;
+        }
+        .index-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 1.5rem; position: relative; text-decoration: none; color: inherit;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .index-card::after { content:''; position:absolute; top:0; left:0; width:10px; height:10px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); }
+        .index-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .index-code { font-family: var(--font-mono); color: var(--silver); font-size: 0.75rem; letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+        .index-title { font-size: 1.2rem; color: var(--primary); font-weight: 700; margin-bottom: 0.75rem; line-height: 1.3; }
+        .index-summary { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+
+        /* Study Section */
+        .study-section {
+            padding: 6rem 10% 4rem; border-top: 1px solid var(--border);
+            position: relative;
+        }
+        .study-section.alt { background: #020202; }
+
+        .study-header { margin-bottom: 3rem; display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap; }
+        .study-code {
+            font-family: var(--font-mono); color: var(--accent); font-size: 0.8rem; letter-spacing: 0.2em;
+            border: 1px solid var(--accent); padding: 0.4rem 0.8rem;
+        }
+        .study-title { font-size: 2.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.01em; line-height: 1.1; }
+
+        .study-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;
+        }
+        @media (max-width: 900px) { .study-grid { grid-template-columns: 1fr; } }
+
+        .panel {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 2rem; position: relative;
+        }
+        .panel::after { content:''; position:absolute; top:0; left:0; width:10px; height:10px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); }
+        .panel::before { content:''; position:absolute; bottom:0; right:0; width:10px; height:10px; border-bottom:2px solid var(--accent); border-right:2px solid var(--accent); }
+        .panel h3 {
+            font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent);
+            letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+        }
+        .panel p { color: var(--text-main); line-height: 1.65; margin-bottom: 1rem; font-size: 0.95rem; }
+        .panel p:last-child { margin-bottom: 0; }
+        .panel ul { list-style: none; padding: 0; }
+        .panel li { padding: 0.5rem 0 0.5rem 1.5rem; position: relative; color: var(--text-main); line-height: 1.5; font-size: 0.9rem; border-bottom: 1px dashed rgba(90,104,80,0.2); }
+        .panel li:last-child { border-bottom: none; }
+        .panel li::before {
+            content: '▸'; position: absolute; left: 0; color: var(--accent); font-family: var(--font-mono);
+        }
+        .panel strong { color: var(--primary); }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+        .data-table th, .data-table td {
+            padding: 0.7rem 0.5rem; text-align: left;
+            border-bottom: 1px solid rgba(90,104,80,0.2);
+            font-family: var(--font-mono); font-size: 0.78rem;
+        }
+        .data-table th { color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.7rem; }
+        .data-table td { color: var(--text-main); }
+        .data-table td.num { text-align: right; color: var(--silver); }
+        .data-table td.total { color: var(--primary); font-weight: 700; border-top: 2px solid var(--accent); border-bottom: none; }
+
+        /* Phase timeline */
+        .phase-timeline { position: relative; padding-left: 2rem; margin-top: 1rem; }
+        .phase-timeline::before {
+            content: ''; position: absolute; left: 0.5rem; top: 0.4rem; bottom: 0.4rem;
+            width: 1px; background: var(--accent);
+        }
+        .phase-item { padding-bottom: 1.5rem; position: relative; }
+        .phase-item:last-child { padding-bottom: 0; }
+        .phase-item::before {
+            content: ''; position: absolute; left: -1.6rem; top: 0.3rem; width: 9px; height: 9px;
+            background: var(--bg); border: 2px solid var(--accent);
+        }
+        .phase-meta {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--silver);
+            letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem;
+        }
+        .phase-title { color: var(--primary); font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .phase-desc { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+
+        /* Risk matrix */
+        .risk-row {
+            display: grid; grid-template-columns: 80px 1fr 90px;
+            gap: 1rem; padding: 0.75rem 0;
+            border-bottom: 1px dashed rgba(90,104,80,0.2);
+            align-items: center;
+        }
+        .risk-row:last-child { border-bottom: none; }
+        .risk-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.3rem 0.5rem; text-align: center; }
+        .risk-low { background: rgba(90,104,80,0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .risk-med { background: rgba(201,168,76,0.15); color: var(--warn); border: 1px solid var(--warn); }
+        .risk-high { background: rgba(232,80,80,0.15); color: var(--hot); border: 1px solid var(--hot); }
+        .risk-text { color: var(--text-main); font-size: 0.85rem; line-height: 1.4; }
+        .risk-mitigation { color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-mono); text-align: right; }
+
+        /* Big number callout */
+        .kpi-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem; margin-bottom: 2rem;
+        }
+        .kpi {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 1.25rem; position: relative;
+        }
+        .kpi::after { content:''; position:absolute; top:0; left:0; width:8px; height:8px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); }
+        .kpi-val { font-family: var(--font-mono); font-size: 1.6rem; color: var(--primary); font-weight: 700; line-height: 1; margin-bottom: 0.4rem; }
+        .kpi-val span { color: var(--silver); font-size: 0.85rem; vertical-align: middle; margin-left: 0.2rem; }
+        .kpi-key { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+
+        /* Decision gate */
+        .decision-gate {
+            background: rgba(90, 104, 80, 0.08); border: 1px solid var(--accent);
+            padding: 2rem; margin-top: 2rem; position: relative;
+        }
+        .decision-gate::before {
+            content: 'DECISION GATE'; position: absolute; top: -0.6rem; left: 1.5rem;
+            background: var(--bg); padding: 0 0.6rem;
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em;
+        }
+        .decision-gate p { color: var(--text-main); line-height: 1.65; margin-bottom: 0.75rem; }
+        .decision-gate p:last-child { margin-bottom: 0; }
+        .decision-gate strong { color: var(--primary); }
+
+        /* Section title */
+        .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; color: var(--primary); letter-spacing: -0.01em; }
+        .section-title::before { content: ''; width: 24px; height: 24px; background: var(--accent); display: block; clip-path: polygon(0 0, 100% 0, 100% 30%, 30% 30%, 30% 100%, 0 100%); }
+
+        /* Wide panel for cross-cutting */
+        .full-panel { grid-column: 1 / -1; }
+
+        /* Material mass diagram */
+        .mass-bar {
+            display: flex; height: 36px; width: 100%; margin: 0.5rem 0 1.5rem;
+            border: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.65rem;
+            letter-spacing: 0.1em;
+        }
+        .mass-seg { display: flex; align-items: center; justify-content: center; color: var(--bg); font-weight: 700; }
+        .mass-seg.onsite { background: var(--accent); }
+        .mass-seg.local { background: var(--silver); color: var(--bg); }
+        .mass-seg.import { background: var(--text-muted); color: var(--primary); }
+        .mass-legend { display: flex; gap: 1.25rem; font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); letter-spacing: 0.08em; }
+        .mass-legend span::before { content: '■'; margin-right: 0.4rem; }
+        .lg-onsite::before { color: var(--accent); }
+        .lg-local::before { color: var(--silver); }
+        .lg-import::before { color: var(--text-muted); }
+
+        footer { text-align: center; padding: 3rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border); background: #020202; }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { color: var(--primary); }
+
+        @media (max-width: 720px) {
+            .hero h1 { font-size: 2.5rem; }
+            nav { padding: 1.25rem 5%; }
+            .study-section { padding: 4rem 5% 3rem; }
+            .hero { padding: 8rem 5% 3rem; }
+            .study-index { padding: 0 5% 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <svg viewBox="0 0 160 50" style="height: 35px; fill: none; stroke-linecap: square; margin-right: 12px; transform: translateY(4px);">
+                <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="8"/>
+                <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="8" stroke-linejoin="miter"/>
+                <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="8"/>
+                <path d="M80 5 L 80 45" stroke="#5a6850" stroke-width="4" opacity="0.6"/>
+                <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="8"/>
+            </svg>
+            ALLERION<span>.LLC</span>
+        </a>
+        <div class="clearance-badge">FEASIBILITY · INTERNAL PLANNING</div>
+    </nav>
+
+    <section class="hero">
+        <span class="hero-tag">// PROJECT GENESIS · STRATEGIC PLANNING DOCKET</span>
+        <h1>Feasibility Studies<br>Integrated Business Models</h1>
+        <p>Three companion feasibility studies for the 40-acre Section 19 asset. Each study operates as a standalone go/no-go path, but together they form a vertically integrated minimum-viable critical-minerals enterprise: one operator, one site, one compute node, one self-funded facility.</p>
+        <div class="hero-disclaimer">
+            ⚠ PLANNING ASSUMPTIONS: All capital and revenue figures are pre-feasibility (PFS) order-of-magnitude estimates (AACE Class 5, accuracy ±50%). Drilling and grade data are inferred from regional analogs and 1944 USBM RI 4315 logs. No NI 43-101 or SK-1300 compliant resource exists. Independent confirmation required before any binding commitment.
+        </div>
+    </section>
+
+    <div class="study-index">
+        <a href="#fs-001" class="index-card">
+            <div class="index-code">FS-001</div>
+            <div class="index-title">Solo Owner-Operator Integrated Model</div>
+            <div class="index-summary">A one-person enterprise structured as IP holder, mineral lessor, and digital-twin licensor. Outsources all physical work to royalty leases and contractors. Sub-$20K annual carry.</div>
+        </a>
+        <a href="#fs-002" class="index-card">
+            <div class="index-code">FS-002</div>
+            <div class="index-title">On-Property Critical Compute Node</div>
+            <div class="index-summary">A 100–250 kW edge data center co-located with the mineral asset, cooled by on-site limestone bedrock and powered in part by fluorspar-revenue financing. Vertically integrated secure-compute for federal mineral-data workloads.</div>
+        </a>
+        <a href="#fs-003" class="index-card">
+            <div class="index-code">FS-003</div>
+            <div class="index-title">Material-Sourced Facility Construction</div>
+            <div class="index-summary">A 10,000 ft² processing, lab, and data-center shell built primarily from on-property limestone aggregate, fluorspar-modified concrete, and dimension sandstone. 60–78% of facility mass sourced on site.</div>
+        </a>
+    </div>
+
+    <!-- =================== FS-001 =================== -->
+    <section class="study-section" id="fs-001">
+        <div class="study-header">
+            <div class="study-code">FS-001</div>
+            <h2 class="study-title">Solo Owner-Operator Integrated Model</h2>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-val">$15–18<span>K/yr</span></div>
+                <div class="kpi-key">Annual Carry Cost</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">10–15<span>hrs/wk</span></div>
+                <div class="kpi-key">Time Commitment</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">5</div>
+                <div class="kpi-key">Independent Revenue Streams</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">36<span>mo</span></div>
+                <div class="kpi-key">Path To First Royalty</div>
+            </div>
+        </div>
+
+        <div class="study-grid">
+
+            <div class="panel">
+                <h3>Executive Summary</h3>
+                <p>The owner retains 100% of the mineral estate and digital-twin IP. All physical exploration, drilling, and extraction are pushed to third parties under lease, joint-venture, or service contract. The operator personally executes only the high-leverage activities: title custody, data licensing, grant capture, and counterparty negotiation.</p>
+                <p>This model is engineered for asymmetric upside on minimal capital exposure. The largest single check the operator writes in Year 1 is the ISGS core re-analysis (≤$5K, identified in USBM RI 4315 as the lowest-cost path to value inflection).</p>
+            </div>
+
+            <div class="panel">
+                <h3>Revenue Architecture</h3>
+                <table class="data-table">
+                    <tr><th>Stream</th><th>Year 1</th><th>Year 3</th><th>Steady State</th></tr>
+                    <tr><td>Mineral lease bonus</td><td class="num">$0</td><td class="num">$20K</td><td class="num">$20–50K</td></tr>
+                    <tr><td>Royalties (8–12% gross)</td><td class="num">$0</td><td class="num">$0</td><td class="num">$60–400K</td></tr>
+                    <tr><td>Federal grants (Earth MRI / DPA Title III)</td><td class="num">$25K</td><td class="num">$75K</td><td class="num">$50–250K</td></tr>
+                    <tr><td>Digital-twin data license</td><td class="num">$0</td><td class="num">$15K</td><td class="num">$30–120K</td></tr>
+                    <tr><td>Adjacent-property consulting</td><td class="num">$0</td><td class="num">$10K</td><td class="num">$25–80K</td></tr>
+                    <tr><td class="total">Total range</td><td class="num total">$25K</td><td class="num total">$120K</td><td class="num total">$185–900K</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h3>Annual Operating Cost</h3>
+                <table class="data-table">
+                    <tr><th>Line item</th><th>Cost</th></tr>
+                    <tr><td>Property tax (40 ac mineral/timber)</td><td class="num">$1,200</td></tr>
+                    <tr><td>Mineral &amp; general liability insurance</td><td class="num">$2,200</td></tr>
+                    <tr><td>Legal &amp; title maintenance</td><td class="num">$3,000</td></tr>
+                    <tr><td>Cesium Ion + hosting + DNS</td><td class="num">$2,400</td></tr>
+                    <tr><td>Federal registrations (SAM.gov, CAGE)</td><td class="num">$600</td></tr>
+                    <tr><td>Annual surface monitoring (XRF / drone)</td><td class="num">$4,500</td></tr>
+                    <tr><td>Travel &amp; site visits</td><td class="num">$2,500</td></tr>
+                    <tr><td class="total">Steady-state annual carry</td><td class="num total">≈ $16,400</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h3>Phased Execution Plan</h3>
+                <div class="phase-timeline">
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 0 · Months 0–3 · $1–5K</div>
+                        <div class="phase-title">ISGS Core Retrieval &amp; ICP-MS Re-Analysis</div>
+                        <div class="phase-desc">Recover the four 1944 USBM cores from the ISGS library in Champaign. Submit selected intervals for modern ICP-MS to test for HREE that 1944 instrumentation could not detect.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 1 · Months 3–9 · $8–15K</div>
+                        <div class="phase-title">Surface Geochem + Drone Magnetics</div>
+                        <div class="phase-desc">20-sample handheld-XRF transect along the Iron Furnace Fault. UAV magnetometer survey to refine vein geometry beneath cover.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 2 · Months 9–18 · $25–50K</div>
+                        <div class="phase-title">Inferred-Resource Statement</div>
+                        <div class="phase-desc">Commission a qualified person to produce a 43-101/SK-1300-style inferred resource. Pre-condition for any institutional lease or federal RFP submission.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 3 · Months 18–36 · Self-funded from Phase-2 grants</div>
+                        <div class="phase-title">Lease / JV / Federal Contract Capture</div>
+                        <div class="phase-desc">Negotiate paid-up lease with a mid-tier operator (Tetra Tech, ASM, or majors). Parallel pursuit of USGS Earth MRI Phase-II and DPA Title III funding.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel full-panel">
+                <h3>Risk Matrix</h3>
+                <div class="risk-row">
+                    <span class="risk-label risk-low">LOW</span>
+                    <span class="risk-text"><strong>Title risk:</strong> 38 years clear chain since 1987, independently verified by ISGS and timber surveys.</span>
+                    <span class="risk-mitigation">title insurance maintained</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Grade risk:</strong> HREE bearing is inferred from regional IKFD analogs; on-property data below 310 ft does not exist.</span>
+                    <span class="risk-mitigation">Phase 0 core re-analysis</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Counterparty risk:</strong> Lease economics depend on a credible mid-tier operator entering the IKFD.</span>
+                    <span class="risk-mitigation">parallel federal track</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-low">LOW</span>
+                    <span class="risk-text"><strong>Operator burnout risk:</strong> single-person enterprise; one accident or illness halts everything.</span>
+                    <span class="risk-mitigation">written succession + advisor</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-high">HIGH</span>
+                    <span class="risk-text"><strong>Commodity risk:</strong> fluorspar pricing is structurally distorted by Chinese export policy; REE pricing volatile.</span>
+                    <span class="risk-mitigation">long-dated DoD/DLA offtake</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="decision-gate">
+            <p><strong>Go condition:</strong> Phase 0 ICP-MS returns ≥1 sample with HREE oxide content above 0.05% combined Dy+Tb+Y, <em>or</em> any sample with TREE+Y above 0.5%.</p>
+            <p><strong>No-go condition:</strong> all 4 cores return REE below detection. In that case, the model reverts to a fluorspar-only narrative funded primarily by federal grant capture and digital-twin licensing — still solvent at the $16K/yr carry, but without the asymmetric upside.</p>
+        </div>
+    </section>
+
+    <!-- =================== FS-002 =================== -->
+    <section class="study-section alt" id="fs-002">
+        <div class="study-header">
+            <div class="study-code">FS-002</div>
+            <h2 class="study-title">On-Property Critical Compute Node</h2>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-val">100–250<span>kW</span></div>
+                <div class="kpi-key">Design IT Load</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">$1.8–3.2<span>M</span></div>
+                <div class="kpi-key">All-In CapEx</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">$1.2–2.4<span>M/yr</span></div>
+                <div class="kpi-key">Steady Revenue Range</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">12–14<span>°C</span></div>
+                <div class="kpi-key">Bedrock Cooling Loop</div>
+            </div>
+        </div>
+
+        <div class="study-grid">
+
+            <div class="panel">
+                <h3>Strategic Thesis</h3>
+                <p>The same property that hosts the critical-mineral asset can host the compute that processes it. Three structural advantages collapse into one site: <strong>(1) physical security</strong> of a private 40-acre parcel; <strong>(2) thermal access</strong> to Mississippian limestone bedrock for year-round 12–14 °C ground-source cooling; <strong>(3) commodity hedge</strong> — fluorspar tonnage extracted on-property funds the build, and downstream fluoropolymer chemistry (CaF₂ → HF → fluoropolymers) is the same supply chain that produces immersion-cooling dielectric fluids and semiconductor etchants.</p>
+                <p>The compute node is positioned as a Tier-I edge facility for federal mineral-data workloads: USGS Earth MRI hosting, DoD strategic-materials AI inference, NURE/ISGS data-lake mirroring, and digital-twin rendering for procurement reviews. The customer base does not require hyperscale; it requires <em>jurisdictional control</em> and <em>physical custody</em>.</p>
+            </div>
+
+            <div class="panel">
+                <h3>The Material→Compute Linkage</h3>
+                <ul>
+                    <li><strong>CaF₂ → HF acid:</strong> on-property fluorspar is the upstream feedstock for hydrofluoric acid, the primary etchant for every silicon wafer in every server in every data center.</li>
+                    <li><strong>HF → fluoropolymers:</strong> PTFE / FEP / PFA jackets coat the high-frequency cables, gaskets, and immersion-cooling dielectrics inside the same facility.</li>
+                    <li><strong>Limestone host rock:</strong> the same Mississippian carbonates that contain the fluorite veins also serve as a high-thermal-mass cooling sink at 80–300 ft depth.</li>
+                    <li><strong>REE (Nd, Dy, Pr):</strong> if confirmed on-site, these are the magnets in every server fan, drive spindle, and grid-tie inverter the facility runs on.</li>
+                    <li><strong>Tailings revenue:</strong> 200–500 T pilot fluorspar extraction at metallurgical grade ($350–450/T) directly capitalizes site preparation.</li>
+                </ul>
+            </div>
+
+            <div class="panel">
+                <h3>CapEx Breakdown (100 kW reference build)</h3>
+                <table class="data-table">
+                    <tr><th>Component</th><th>Cost</th></tr>
+                    <tr><td>Site prep, grading, foundation</td><td class="num">$180K</td></tr>
+                    <tr><td>Containerized white-space (12-rack)</td><td class="num">$520K</td></tr>
+                    <tr><td>Ground-source cooling loop (8 bores, 300 ft)</td><td class="num">$240K</td></tr>
+                    <tr><td>200 kW PV canopy + 500 kWh battery</td><td class="num">$420K</td></tr>
+                    <tr><td>Utility interconnect (Shawnee Power Coop.)</td><td class="num">$130K</td></tr>
+                    <tr><td>Fiber drop + Starlink secondary</td><td class="num">$95K</td></tr>
+                    <tr><td>Hardened envelope (perimeter, access ctrl)</td><td class="num">$160K</td></tr>
+                    <tr><td>Compliance &amp; commissioning (FedRAMP-aligned)</td><td class="num">$120K</td></tr>
+                    <tr><td class="total">Total CapEx (100 kW)</td><td class="num total">≈ $1.87M</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h3>OpEx &amp; Unit Economics</h3>
+                <table class="data-table">
+                    <tr><th>Item</th><th>Annual</th></tr>
+                    <tr><td>Power (avg 90 kW @ $0.09/kWh, net of PV)</td><td class="num">$48K</td></tr>
+                    <tr><td>Bandwidth (10 Gbps committed + DR)</td><td class="num">$72K</td></tr>
+                    <tr><td>Insurance, taxes, security</td><td class="num">$38K</td></tr>
+                    <tr><td>Remote-hands &amp; on-call</td><td class="num">$60K</td></tr>
+                    <tr><td>Sinking fund (refresh + battery)</td><td class="num">$55K</td></tr>
+                    <tr><td class="total">Total OpEx</td><td class="num total">≈ $273K</td></tr>
+                    <tr><td>Revenue @ $250/kW/mo × 90 kW</td><td class="num">$270K</td></tr>
+                    <tr><td>+ AI inference / data-license uplift</td><td class="num">$400–900K</td></tr>
+                    <tr><td class="total">Gross margin range</td><td class="num total">38–65%</td></tr>
+                </table>
+            </div>
+
+            <div class="panel full-panel">
+                <h3>Phased Build</h3>
+                <div class="phase-timeline">
+                    <div class="phase-item">
+                        <div class="phase-meta">Stage A · Months 0–6 · ≤$50K</div>
+                        <div class="phase-title">Feasibility &amp; Anchor LOI</div>
+                        <div class="phase-desc">Power-availability letter from Shawnee Power Cooperative; fiber path confirmation along IL-1; one anchor tenant LOI (USGS contractor, DoD prime, or AI mineral-exploration firm).</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Stage B · Months 6–14 · $400–600K</div>
+                        <div class="phase-title">Micro-Pilot (25 kW)</div>
+                        <div class="phase-desc">Single 6-rack container, dry cooler, grid-only. Hosts the digital-twin production stack and one external workload. De-risks operations before full build.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Stage C · Months 14–28 · $1.4–2.2M</div>
+                        <div class="phase-title">Full 100 kW + Ground-Loop Cooling</div>
+                        <div class="phase-desc">Bore field, PV canopy, hardened envelope, FedRAMP-aligned controls, fiber redundancy.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Stage D · Months 28+ · expansion-funded</div>
+                        <div class="phase-title">250 kW Expansion + Co-located Lab</div>
+                        <div class="phase-desc">Add second container pod, integrate FS-003 lab building, co-process on-site geochem samples through co-located ICP-MS partner.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel full-panel">
+                <h3>Risk Matrix</h3>
+                <div class="risk-row">
+                    <span class="risk-label risk-high">HIGH</span>
+                    <span class="risk-text"><strong>Anchor tenant risk:</strong> no anchor LOI = no build. Stage A is a hard gate.</span>
+                    <span class="risk-mitigation">no Stage B without LOI</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Power-availability risk:</strong> rural feeder may cap delivered load below 250 kW.</span>
+                    <span class="risk-mitigation">PV + battery; gas microturbine option</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Fiber risk:</strong> last-mile fiber along IL-1 may require utility-pole co-build.</span>
+                    <span class="risk-mitigation">Starlink Gov. + microwave PtP</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-low">LOW</span>
+                    <span class="risk-text"><strong>Cooling risk:</strong> shallow Mississippian carbonates are well-characterized as GSHP hosts in southern IL.</span>
+                    <span class="risk-mitigation">2 monitoring wells in design</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-high">HIGH</span>
+                    <span class="risk-text"><strong>Permitting + zoning:</strong> Hardin County industrial-use review and IDNR coordination required for ground loop and mineral co-use.</span>
+                    <span class="risk-mitigation">retain local land-use counsel</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="decision-gate">
+            <p><strong>Go condition:</strong> Stage A produces at least one signed anchor LOI committing to ≥40 kW for ≥36 months, <em>and</em> Shawnee Power Coop. confirms 250 kW deliverable load with reasonable interconnect.</p>
+            <p><strong>No-go condition:</strong> no LOI by Month 9, or interconnect cost exceeds $400K. In that case, fall back to a 25 kW micro-pilot dedicated solely to FS-001 digital-twin hosting, eliminate FS-002 commercial colocation, and reallocate planned CapEx to FS-003.</p>
+        </div>
+    </section>
+
+    <!-- =================== FS-003 =================== -->
+    <section class="study-section" id="fs-003">
+        <div class="study-header">
+            <div class="study-code">FS-003</div>
+            <h2 class="study-title">Material-Sourced Facility Construction</h2>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-val">10,000<span>ft²</span></div>
+                <div class="kpi-key">Reference Facility Footprint</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">62–78<span>%</span></div>
+                <div class="kpi-key">On-Property Mass Fraction</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">$1.6–2.4<span>M</span></div>
+                <div class="kpi-key">All-In Build Cost</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-val">200<span>T</span></div>
+                <div class="kpi-key">Pilot Fluorspar Funds Foundation</div>
+            </div>
+        </div>
+
+        <div class="study-grid">
+
+            <div class="panel">
+                <h3>The "Build It From The Hill" Principle</h3>
+                <p>The user-stated invariant for this study is simple: <strong>if there is fluorspar, the facility gets built — at minimum — from the materials on the property.</strong> That principle is interpreted at two tiers:</p>
+                <p><strong>Financial tier:</strong> a modest pilot extraction (200–500 T metallurgical-grade fluorspar) self-finances the foundation and shell. At $350–450/T this is $70–225K — sufficient to cover concrete, fuel, and site prep for a 10,000 ft² building.</p>
+                <p><strong>Physical tier:</strong> by mass, 62–78% of the completed facility is sourced from the property itself: crushed limestone aggregate, dimension sandstone, fluorspar-modified cement, on-site water, and (if grade permits) CaF₂ optical-grade glazing.</p>
+            </div>
+
+            <div class="panel">
+                <h3>On-Site Material Inventory</h3>
+                <ul>
+                    <li><strong>Fluorspar (CaF₂):</strong> historical 6,900–7,900 T extracted, host vein widths up to 4 ft mapped. Modern use: cement flux modifier, decorative aggregate, optical glazing feedstock.</li>
+                    <li><strong>Limestone host rock:</strong> Ste. Genevieve and St. Louis formations — high-quality structural and aggregate stone, locally quarryable.</li>
+                    <li><strong>Sandstone (Tar Springs / Cypress / Vienna):</strong> dimension-stone quality for cladding, foundation infill.</li>
+                    <li><strong>Quartz vein material:</strong> decorative and abrasive uses; minor structural.</li>
+                    <li><strong>Pennsylvanian shale:</strong> brick / ceramic feedstock; secondary aggregate.</li>
+                    <li><strong>Aquifer water:</strong> on-site well for concrete mixing and process water (subject to IDNR review).</li>
+                </ul>
+            </div>
+
+            <div class="panel full-panel">
+                <h3>Material Mass Composition — 10,000 ft² Reference Build</h3>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;">Approximate mass of a single-story precast/CMU hybrid facility with concrete slab, structural steel frame, and stone cladding. Total finished mass ≈ 1,950 short tons.</p>
+                <div class="mass-bar">
+                    <div class="mass-seg onsite" style="width:68%;">ON-PROPERTY · 68%</div>
+                    <div class="mass-seg local" style="width:18%;">LOCAL ≤100MI · 18%</div>
+                    <div class="mass-seg import" style="width:14%;">IMPORTED · 14%</div>
+                </div>
+                <div class="mass-legend">
+                    <span class="lg-onsite">on-property (crushed limestone, sandstone, fluorspar additive, water)</span>
+                    <span class="lg-local">local sand, cement (Cape Girardeau, ~100 mi), aggregate top-up</span>
+                    <span class="lg-import">structural steel, rebar, glazing, MEP</span>
+                </div>
+                <table class="data-table" style="margin-top:1.5rem;">
+                    <tr><th>Material</th><th>Tons</th><th>Source</th><th>Use</th></tr>
+                    <tr><td>Crushed limestone aggregate</td><td class="num">980</td><td>On-property quarry</td><td>Concrete, road base, foundation backfill</td></tr>
+                    <tr><td>Dimension sandstone</td><td class="num">220</td><td>On-property outcrop</td><td>Cladding, retaining walls</td></tr>
+                    <tr><td>Fluorspar tailings additive</td><td class="num">18</td><td>On-property</td><td>Cement flux modifier (1–3% by wt)</td></tr>
+                    <tr><td>Process / mix water</td><td class="num">110</td><td>On-property well</td><td>Concrete, dust suppression</td></tr>
+                    <tr><td>Portland cement</td><td class="num">220</td><td>Cape Girardeau, MO (~100 mi)</td><td>Concrete binder</td></tr>
+                    <tr><td>Sand (fine aggregate)</td><td class="num">130</td><td>Ohio River bar (~25 mi)</td><td>Concrete, mortar</td></tr>
+                    <tr><td>Structural steel + rebar</td><td class="num">175</td><td>Imported (Granite City, IL)</td><td>Frame, slab reinforcement</td></tr>
+                    <tr><td>Glazing, MEP, finishes</td><td class="num">95</td><td>Imported</td><td>Envelope and systems</td></tr>
+                    <tr><td class="total">Total finished mass</td><td class="num total">≈ 1,948 T</td><td class="total" colspan="2">On-property fraction: 68%</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h3>Self-Financing Pathway</h3>
+                <p>The pilot extraction does not need to be a full mining operation. The Indiana Mine alone produced 5,900 T in two years (1923–1925) at hand-tool productivity. A modern 12-month surface and shallow-vein pilot targeting 200–500 T is well within the historical envelope.</p>
+                <table class="data-table">
+                    <tr><th>Pilot scenario</th><th>Tons</th><th>$/T</th><th>Gross</th></tr>
+                    <tr><td>Conservative (acid grade rejection)</td><td class="num">200</td><td class="num">$350</td><td class="num">$70K</td></tr>
+                    <tr><td>Base (metallurgical grade)</td><td class="num">350</td><td class="num">$400</td><td class="num">$140K</td></tr>
+                    <tr><td>Stretch (acid grade portion)</td><td class="num">500</td><td class="num">$500</td><td class="num">$250K</td></tr>
+                </table>
+                <p style="margin-top:1rem;">Even the conservative case fully funds the concrete foundation, site preparation, and water/septic for a 10,000 ft² facility. The base case adds the full envelope. The stretch case completes shell + MEP rough-in.</p>
+            </div>
+
+            <div class="panel">
+                <h3>Phased Build</h3>
+                <div class="phase-timeline">
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 1 · Months 0–6 · permitting</div>
+                        <div class="phase-title">IDNR / IEPA Surface Permit + Building Permit</div>
+                        <div class="phase-desc">Hardin County building permit and IDNR Office of Mines &amp; Minerals surface-mine permit covering the pilot footprint.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 2 · Months 6–12 · pilot extraction</div>
+                        <div class="phase-title">200–500 T Fluorspar Pilot</div>
+                        <div class="phase-desc">Shallow-vein extraction along the Iron Furnace Fault. Co-product: crushed limestone stockpile sized for facility foundation.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 3 · Months 12–20 · shell</div>
+                        <div class="phase-title">Foundation + Envelope</div>
+                        <div class="phase-desc">Slab, walls, roof. Concrete batched on-site using local limestone aggregate and 2% fluorspar flux modifier.</div>
+                    </div>
+                    <div class="phase-item">
+                        <div class="phase-meta">Phase 4 · Months 20–28 · MEP &amp; fit-out</div>
+                        <div class="phase-title">Lab + Data Bay + Office</div>
+                        <div class="phase-desc">2,000 ft² ICP-MS / XRF lab; 3,000 ft² data-center bay (slots into FS-002); 2,000 ft² office; 3,000 ft² staging / core library.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel full-panel">
+                <h3>Risk Matrix</h3>
+                <div class="risk-row">
+                    <span class="risk-label risk-high">HIGH</span>
+                    <span class="risk-text"><strong>Pilot extraction permit risk:</strong> IDNR Office of Mines &amp; Minerals review is non-trivial; surface disturbance triggers reclamation bonding.</span>
+                    <span class="risk-mitigation">bond + local counsel</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Grade risk on pilot:</strong> historical mines were selective; a modern pilot may dilute below acid grade.</span>
+                    <span class="risk-mitigation">accept met grade pricing</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-low">LOW</span>
+                    <span class="risk-text"><strong>Aggregate suitability:</strong> Ste. Genevieve limestone is a known structural aggregate in southern IL.</span>
+                    <span class="risk-mitigation">ASTM C33 testing</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-med">MED</span>
+                    <span class="risk-text"><strong>Fluorspar-in-concrete acceptance:</strong> 1–3% CaF₂ as a flux modifier is documented but uncommon in U.S. code-approved mixes.</span>
+                    <span class="risk-mitigation">engineered mix + 3-party lab</span>
+                </div>
+                <div class="risk-row">
+                    <span class="risk-label risk-low">LOW</span>
+                    <span class="risk-text"><strong>Water-rights risk:</strong> on-property well already in use; IDNR review for industrial-volume mixing required.</span>
+                    <span class="risk-mitigation">cap mix volumes; tanker contingency</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="decision-gate">
+            <p><strong>Go condition:</strong> IDNR pilot-extraction permit issued <em>and</em> the first 50 T extracted assays at ≥85% CaF₂ (met grade or better).</p>
+            <p><strong>No-go condition:</strong> permitting timeline exceeds 18 months or first-50-T grade falls below 70% CaF₂. In that case, defer self-built construction and lease an existing structure in Cave-in-Rock or Rosiclare for the FS-002 compute node, using FS-001 lease/royalty income to cover rent.</p>
+        </div>
+    </section>
+
+    <!-- =================== INTEGRATION =================== -->
+    <section class="study-section alt" id="integration">
+        <h2 class="section-title">Integrated Stack — How The Three Studies Compound</h2>
+
+        <div class="study-grid">
+            <div class="panel full-panel">
+                <h3>Vertical Integration Logic</h3>
+                <p><strong>FS-001 funds FS-003.</strong> Lease bonus and federal grant capture from the owner-operator model produce the working capital for permitting and pilot extraction.</p>
+                <p><strong>FS-003 builds FS-002.</strong> Pilot fluorspar revenue and on-site materials produce the physical shell that houses the compute node.</p>
+                <p><strong>FS-002 leverages FS-001.</strong> The compute node hosts the digital twin and federal mineral-data workloads that justify higher data-license tiers and unlock follow-on federal contracts.</p>
+                <p>None of the three studies depend on outside equity. The chain is bootstrappable: ISGS core re-analysis ($1–5K) → grant capture ($25–75K) → pilot extraction ($70–250K) → facility shell ($1.6–2.4M) → compute node ($1.8–3.2M). Each stage is self-justifying as a standalone enterprise; together they form a vertically integrated critical-minerals firm operated by a single principal.</p>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top: 3rem;">
+            <a href="index.html" style="font-family: var(--font-mono); color: var(--silver); text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border-bottom: 1px solid var(--silver); padding-bottom: 0.25rem;">◂ Return to Project Genesis</a>
+            <span style="margin: 0 1.5rem; color: var(--text-muted);">·</span>
+            <a href="twin.html" style="font-family: var(--font-mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 0.25rem;">Launch Digital Twin ▸</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>ALLERION LLC © 2026 · FEASIBILITY STUDIES FS-001 / FS-002 / FS-003 · INTERNAL PLANNING · DO NOT DISTRIBUTE UNLESS AUTHORIZED.</p>
+    </footer>
+
+</body>
+</html>
