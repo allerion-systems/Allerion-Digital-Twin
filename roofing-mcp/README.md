@@ -11,6 +11,7 @@ An MCP server that lets a roofing company sell, measure, and quote from inside a
 | `generate_quote` | Full materials + labor + fees + markup quote. Sales rep can run this live on a call. |
 | `create_lead` / `list_leads` / `update_lead` | Digital ledger replacing paper. Stored as JSON in `data/leads.json`. |
 | `create_quickbooks_estimate` | Pushes a quote into QuickBooks Online as an Estimate (stub until `QBO_ACCESS_TOKEN` is set). |
+| `erpnext_status` / `erpnext_push_customer` / `erpnext_push_quotation` / `erpnext_push_project` | Open-source ERPNext (Frappe) connector. Stubs until `ERPNEXT_BASE_URL`, `ERPNEXT_API_KEY`, and `ERPNEXT_API_SECRET` are set. Construction vertical: Customer &rarr; Quotation &rarr; Project. |
 
 ## Install
 
@@ -42,12 +43,16 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 | `ROOFING_MCP_DATA_DIR` | Override lead-ledger directory (default: `./data`). |
 | `QBO_ACCESS_TOKEN` | OAuth2 access token for QuickBooks Online (estimate push). |
 | `GOOGLE_MAPS_API_KEY` | Reserved for future Google Earth / Solar API integration. |
+| `ERPNEXT_BASE_URL` | e.g. `https://acme.frappe.cloud` &mdash; base URL of the ERPNext site. |
+| `ERPNEXT_API_KEY` | Frappe API key (from User &rarr; API Access). |
+| `ERPNEXT_API_SECRET` | Frappe API secret. |
 
 ## What is mocked (and where the real call goes)
 
 - **Roof measurement** (`src/measurement.ts`) — deterministic synthesis from the address. Real call: Google Earth Solar API, Nearmap AI, or EagleView.
 - **Material prices** (`src/pricing.ts`) — static catalog representative of May 2026. Real call: scrape or API against the three supplier portals.
 - **QuickBooks estimate** (`src/index.ts`) — returns a stub object. Real call: `POST /v3/company/{realmId}/estimate` with OAuth2.
+- **ERPNext connector** (`src/erpnext.ts`) — returns stub Customer/Quotation/Project docs. Real call: `POST /api/resource/{Doctype}` with `Authorization: token KEY:SECRET`. See [Frappe REST docs](https://frappeframework.com/docs/user/en/api/rest).
 
 ## Monetization model
 

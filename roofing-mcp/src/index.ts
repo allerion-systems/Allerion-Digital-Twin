@@ -9,7 +9,7 @@ import {
 import { z } from "zod";
 
 import { measureRoofFromAddress } from "./measurement.js";
-import { generateQuote, getMaterialPrices } from "./pricing.js";
+import { generateQuote, getMaterialPrices, type Quote } from "./pricing.js";
 import {
   createLead,
   getLead,
@@ -17,6 +17,12 @@ import {
   updateLead,
   type LeadStatus,
 } from "./storage.js";
+import {
+  configStatus as erpConfigStatus,
+  createCustomer as erpCreateCustomer,
+  createProject as erpCreateProject,
+  createQuotation as erpCreateQuotation,
+} from "./erpnext.js";
 
 const server = new Server(
   { name: "roofing-mcp", version: "0.1.0" },
@@ -164,6 +170,48 @@ const TOOLS: Tool[] = [
       required: ["leadId", "quote"],
     },
   },
+  {
+    name: "erpnext_status",
+    description:
+      "Report whether the ERPNext (Frappe) connector is configured and which env vars are missing.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "erpnext_push_customer",
+    description:
+      "Create an ERPNext Customer doc from a lead in the digital ledger. Stub until ERPNEXT_BASE_URL/API_KEY/API_SECRET are set.",
+    inputSchema: {
+      type: "object",
+      properties: { leadId: { type: "string" } },
+      required: ["leadId"],
+    },
+  },
+  {
+    name: "erpnext_push_quotation",
+    description:
+      "Create an ERPNext Quotation doc from a generated quote, linked to an ERPNext customer ID.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        customerId: { type: "string" },
+        quote: { type: "object" },
+      },
+      required: ["customerId", "quote"],
+    },
+  },
+  {
+    name: "erpnext_push_project",
+    description:
+      "Create an ERPNext Project doc when a lead is won and work needs scheduling.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        customerId: { type: "string" },
+        projectName: { type: "string" },
+      },
+      required: ["customerId", "projectName"],
+    },
+  },
 ];
 
 const MeasureArgs = z.object({ address: z.string().min(3) });
@@ -237,6 +285,16 @@ const QboEstimateArgs = z.object({
   quote: z.record(z.unknown()),
 });
 
+const ErpPushCustomerArgs = z.object({ leadId: z.string() });
+const ErpPushQuotationArgs = z.object({
+  customerId: z.string(),
+  quote: z.record(z.unknown()),
+});
+const ErpPushProjectArgs = z.object({
+  customerId: z.string(),
+  projectName: z.string(),
+});
+
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
 
 server.setRequestHandler(CallToolRequestSchema, async (req) => {
@@ -289,6 +347,23 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
           });
         }
         return error("Live QuickBooks integration not yet implemented.");
+      }
+      case "erpnext_status": {
+        return ok(erpConfigStatus());
+      }
+      case "erpnext_push_customer": {
+        const { leadId } = ErpPushCustomerArgs.parse(args);
+        const lead = await getLead(leadId);
+        if (!lead) return error(`Lead ${leadId} not found`);
+        return ok(await erpCreateCustomer(lead));
+      }
+      case "erpnext_push_quotation": {
+        const { customerId, quote } = ErpPushQuotationArgs.parse(args);
+        return ok(await erpCreateQuotation(customerId, quote as unknown as Quote));
+      }
+      case "erpnext_push_project": {
+        const { customerId, projectName } = ErpPushProjectArgs.parse(args);
+        return ok(await erpCreateProject(customerId, projectName));
       }
       default:
         return error(`Unknown tool: ${name}`);
