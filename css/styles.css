@@ -1,6 +1,11 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100%; height:100%; background:#060810; font-family: sans-serif; overflow:hidden; }
-#cesiumContainer { width:100%; height:100%; }
+#cesiumContainer { position:absolute; inset:0; width:100%; height:100%; }
+#mobile-toggle { display:none; }
+#cesiumContainer2 {
+  position:absolute; top:0; right:0; width:50%; height:100%; z-index:75; background:#060810;
+}
+body.split-active #cesiumContainer { width:50%; }
 #ui {
   position:absolute; top:0; left:0; bottom:0; width:300px;
   background: rgba(8,12,22,0.95); border-right: 1px solid rgba(74,240,200,0.2);
@@ -38,3 +43,44 @@ html, body { width:100%; height:100%; background:#060810; font-family: sans-seri
 .view-btn.active { background: #4af0c8; color: #000; border-color: #4af0c8; }
 #coord-display { margin-left: auto; color: #666; font-family: monospace; font-size: 0.8rem; }
 @keyframes dronePulse { 0% { box-shadow: 0 0 0px #4af0c8; } 50% { box-shadow: 0 0 15px #4af0c8; } 100% { box-shadow: 0 0 0px #4af0c8; } }
+#detail-card {
+  display:none; padding:1rem 1.5rem; margin:1rem; border:1px solid rgba(74,240,200,0.35);
+  background:rgba(3,6,10,0.88); color:#d8f8ee; border-radius:4px;
+}
+#detail-card.active { display:block; }
+#detail-type { color:#4af0c8; font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:0.45rem; }
+#detail-title { color:#fff; font-size:1rem; font-weight:800; margin-bottom:0.6rem; }
+#detail-body { color:#a8b8b2; font-size:0.82rem; line-height:1.5; }
+#detail-close {
+  margin-top:0.8rem; width:100%; padding:0.55rem; background:#121a18; border:1px solid #4af0c8;
+  color:#4af0c8; cursor:pointer; font-weight:700;
+}
+#runtime-status {
+  position:fixed; right:18px; bottom:18px; z-index:1000; width:min(360px, calc(100vw - 36px));
+  background:rgba(4,5,6,0.88); border:1px solid rgba(74,240,200,0.28); color:#cdd6d3;
+  font-family:monospace; font-size:11px; padding:12px; border-radius:6px; backdrop-filter:blur(10px);
+}
+#runtime-status strong { display:block; color:#4af0c8; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:7px; }
+#runtime-status-list div { display:flex; gap:8px; padding:3px 0; line-height:1.35; }
+#runtime-status-list span { color:#69736f; white-space:nowrap; }
+#runtime-status-list .ok { color:#d8fff4; }
+#runtime-status-list .warn { color:#ffcf76; }
+.fatal-panel {
+  position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); max-width:560px;
+  padding:2rem; border:1px solid #ff6655; color:#ffd7d2; background:rgba(20,2,2,0.92);
+  font-family:monospace; text-align:left;
+}
+.fatal-panel h2 { color:#fff; margin-bottom:0.8rem; }
+@media (max-width: 860px) {
+  #mobile-toggle {
+    display:block; position:fixed; top:10px; left:10px; z-index:1001; background:#0c1816;
+    color:#4af0c8; border:1px solid #4af0c8; padding:0.5rem 0.7rem; font-weight:800;
+  }
+  #ui { transform:translateX(-100%); transition:transform 0.2s ease; width:min(320px, 86vw); }
+  #ui.open { transform:translateX(0); }
+  #topbar { left:0; overflow-x:auto; padding-left:86px; }
+  #coord-display { display:none; }
+  body.split-active #cesiumContainer { width:100%; }
+  #cesiumContainer2 { width:100%; opacity:0.92; }
+  #runtime-status { bottom:10px; right:10px; }
+}

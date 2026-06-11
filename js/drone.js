@@ -14,6 +14,7 @@
   let waypoints = [];
   let agentEntities = [];
   let miningTargets = [];
+  let miningHandler = null;
 
   // Drone position state (lon, lat, altitude in meters)
   const droneState = {
@@ -331,8 +332,10 @@
   // ── MINING SIMULATION ───────────────────────────────────────────────
   // Click-to-mark drill targets during drone survey
   function enableMiningMode() {
-    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-    handler.setInputAction(function(click) {
+    if (miningHandler) return;
+
+    miningHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    miningHandler.setInputAction(function(click) {
       if (!droneActive) return;
       const ray = viewer.camera.getPickRay(click.position);
       const globe = viewer.scene.globe;
@@ -387,7 +390,13 @@
   }
 
   function createHUD() {
-    const hud = document.createElement('div');
+    let hud = document.getElementById('drone-hud');
+    if (!hud) {
+      hud = document.createElement('div');
+      hud.id = 'drone-hud';
+      document.body.appendChild(hud);
+    }
+
     hud.id = 'drone-hud';
     hud.innerHTML = `
       <div class="hud-row"><span class="hud-key">STATUS</span><span class="hud-val" id="hud-status">STANDBY</span></div>
@@ -409,32 +418,34 @@
       <button id="hud-deploy-agents" class="hud-btn">▶ DEPLOY AI AGENTS</button>
       <button id="hud-export" class="hud-btn" style="background:#1a2010;color:#aacc66;border-color:#667744;">⬇ EXPORT SURVEY</button>
     `;
-    document.body.appendChild(hud);
 
-    const style = document.createElement('style');
-    style.textContent = `
-      #drone-hud {
-        position: fixed; top: 60px; right: 20px; z-index: 10000;
-        background: rgba(4,5,6,0.92); border: 1px solid rgba(74,240,200,0.4);
-        padding: 12px 16px; font-family: monospace; font-size: 11px;
-        color: #ccc; min-width: 220px; backdrop-filter: blur(10px);
-        display: none; border-radius: 4px;
-      }
-      #drone-hud.active { display: block; }
-      .hud-row { display: flex; justify-content: space-between; padding: 3px 0; }
-      .hud-key { color: #4af0c8; font-weight: 700; font-size: 10px; }
-      .hud-val { color: #fff; font-weight: 700; }
-      .hud-divider { border-top: 1px solid rgba(74,240,200,0.2); margin: 8px 0; }
-      .hud-controls { font-size: 9px; color: #888; line-height: 1.8; }
-      .hud-btn {
-        display: block; width: 100%; margin-top: 6px; padding: 8px;
-        background: #0a1a10; color: #4af0c8; border: 1px solid #4af0c8;
-        font-family: monospace; font-size: 10px; font-weight: 700;
-        cursor: pointer; text-align: center; letter-spacing: 0.1em;
-      }
-      .hud-btn:hover { background: #1a3a20; }
-    `;
-    document.head.appendChild(style);
+    if (!document.getElementById('drone-hud-style')) {
+      const style = document.createElement('style');
+      style.id = 'drone-hud-style';
+      style.textContent = `
+        #drone-hud {
+          position: fixed; top: 60px; right: 20px; z-index: 10000;
+          background: rgba(4,5,6,0.92); border: 1px solid rgba(74,240,200,0.4);
+          padding: 12px 16px; font-family: monospace; font-size: 11px;
+          color: #ccc; min-width: 220px; backdrop-filter: blur(10px);
+          display: none; border-radius: 4px;
+        }
+        #drone-hud.active { display: block; }
+        .hud-row { display: flex; justify-content: space-between; padding: 3px 0; }
+        .hud-key { color: #4af0c8; font-weight: 700; font-size: 10px; }
+        .hud-val { color: #fff; font-weight: 700; }
+        .hud-divider { border-top: 1px solid rgba(74,240,200,0.2); margin: 8px 0; }
+        .hud-controls { font-size: 9px; color: #888; line-height: 1.8; }
+        .hud-btn {
+          display: block; width: 100%; margin-top: 6px; padding: 8px;
+          background: #0a1a10; color: #4af0c8; border: 1px solid #4af0c8;
+          font-family: monospace; font-size: 10px; font-weight: 700;
+          cursor: pointer; text-align: center; letter-spacing: 0.1em;
+        }
+        .hud-btn:hover { background: #1a3a20; }
+      `;
+      document.head.appendChild(style);
+    }
 
     document.getElementById('hud-deploy-agents').addEventListener('click', deployAgents);
     document.getElementById('hud-export').addEventListener('click', exportSurvey);
