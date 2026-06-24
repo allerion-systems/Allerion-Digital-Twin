@@ -25,7 +25,7 @@ from twilio.rest import Client as TwilioClient
 # --- Config -----------------------------------------------------------------
 
 BUSINESS = {
-    "name": "R&B Roofing & Remodeling",
+    "name": "Your Roofing Co.",  # sample — replace with the client's business
     "city": "Louisville, KY",
     "trade": "roofing",
     "slots": ["Tomorrow 9:00 AM", "Thursday 2:00 PM"],  # pull from your calendar in prod

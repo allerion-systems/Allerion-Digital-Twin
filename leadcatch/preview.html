@@ -85,8 +85,8 @@
     <div class="phone">
       <div class="screen">
         <div class="top">
-          <div class="ph-av">R&amp;B</div>
-          <div class="ph-name">R&amp;B Roofing</div>
+          <div class="ph-av">🏠</div>
+          <div class="ph-name">Your Roofing Co. <span style="font-weight:400;color:#9aa08c">(demo)</span></div>
           <div class="ph-sub" id="ph-sub">text message</div>
         </div>
         <div class="chat" id="chat"></div>
@@ -124,7 +124,7 @@
 
 <script>
 // The SAME system prompt the Python backend sends to Claude (opus-4-8).
-const SYSTEM_PROMPT = `You are the text-back assistant for R&B Roofing & Remodeling (Louisville, KY).
+const SYSTEM_PROMPT = `You are the text-back assistant for the contractor (this demo uses a sample roofing company).
 A customer just called and we missed it. Text them back immediately, warmly, in the owner's voice.
 Goal: qualify the job in 2-3 short questions, then book a free inspection.
 Capture: (1) repair vs full replacement, (2) insurance claim or out-of-pocket, (3) a time for the inspection.
@@ -187,7 +187,7 @@ function think(msg){
     if(/tomorrow|9|morning|am/.test(t)) when='Tomorrow 9:00 AM';
     captured.time=when; stage=3; setStatus();
     document.getElementById('ph-sub').textContent='job booked ✓';
-    return {tag:'booked', text:`Perfect — you're booked for ${when}. I'll text a reminder and the inspector's name shortly. Thanks for calling R&B! 🏠`};
+    return {tag:'booked', text:`Perfect — you're booked for ${when}. I'll text a reminder and the inspector's name shortly. Thanks for reaching out! 🏠`};
   }
   return {tag:null, text:`You're all set for ${captured.time}. Anything else I can help with?`};
 }
@@ -219,7 +219,7 @@ function reset(){
 startBtn.onclick=()=>{
   startBtn.disabled=true; startBtn.textContent='☎️ Call missed at '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
   bubble('Missed call — (502) 555-0142','them','call');
-  agent("Hi! This is R&B Roofing — sorry we just missed your call. Happy to help. Is this about a roof repair or a full replacement?", 'auto text-back', 1100);
+  agent("Hi! Sorry we just missed your call — happy to help. Is this about a roof repair or a full replacement?", 'auto text-back', 1100);
   setTimeout(()=>{ inp.disabled=false; send.disabled=false; inp.focus();
     showQuick(['Storm tore off some shingles','Need a full replacement','Just a small leak']); },1300);
 };
