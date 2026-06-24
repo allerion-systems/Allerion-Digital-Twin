@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Contractor AI Toolkit — 40+ prompts that win jobs & chase leads | Allerion</title>
+<meta name="description" content="40+ copy-paste AI prompts and scripts built for roofers and home-service pros. Win more jobs, never lose a lead, get paid faster. $39 one-time." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#fbfbf8;--soft:#f3f4ee;--ink:#181b12;--ink2:#3b4034;--muted:#6a7062;--line:#e6e8df;--line2:#d7dacd;
+    --accent:#5a6850;--accent-d:#424d39;--accent-l:#eef1e7;--gold:#c19a3e;--gold-l:#f3ead2;--ink-dark:#14180f;--r:16px;
+    --sh:0 1px 2px rgba(24,27,18,.04),0 2px 8px rgba(24,27,18,.05);--sh2:0 4px 12px rgba(24,27,18,.06),0 16px 40px rgba(24,27,18,.07);
+    --font:'Inter',sans-serif;--display:'Fraunces',serif}
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px}
+  .display{font-family:var(--display);font-weight:600;letter-spacing:-.015em}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:700;border-radius:999px;
+    padding:1rem 2rem;font-size:1.08rem;cursor:pointer;border:1.5px solid transparent;transition:transform .18s,box-shadow .18s,background .18s}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(90,104,80,.3)}
+  .btn-primary:hover{background:var(--accent-d);transform:translateY(-2px)}
+  .demo-banner{background:var(--ink-dark);color:#d9c089;text-align:center;font-size:.8rem;padding:.5rem;font-weight:500}
+
+  .hero{text-align:center;padding:4rem 0 2.5rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:-30% -20% auto -20%;height:480px;z-index:-1;
+    background:radial-gradient(50% 60% at 50% 0,rgba(193,154,62,.13),transparent 60%),radial-gradient(60% 70% at 30% 20%,rgba(90,104,80,.12),transparent 60%)}
+  .kicker{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;color:var(--accent-d);background:#fff;border:1px solid var(--line2);padding:.45rem 1rem;border-radius:999px;box-shadow:var(--sh);margin-bottom:1.2rem}
+  .hero h1{font-size:clamp(2.1rem,5.4vw,3.4rem);line-height:1.06;max-width:18ch;margin:0 auto 1rem}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero .lede{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--ink2);max-width:56ch;margin:0 auto 1.8rem}
+  .price-row{display:flex;align-items:center;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .price{font-family:var(--display);font-size:2.2rem;font-weight:600}
+  .price s{color:var(--muted);font-size:1.2rem;font-weight:400;margin-right:.4rem}
+  .micro{font-size:.85rem;color:var(--muted);margin-top:.8rem}
+
+  section{padding:3.5rem 0}
+  .head{text-align:center;max-width:60ch;margin:0 auto 2.2rem}
+  .head h2{font-size:clamp(1.6rem,3.4vw,2.2rem);margin:.5rem 0}
+  .head p{color:var(--muted);font-size:1.05rem}
+
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+  .pain{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh)}
+  .pain .ic{font-size:1.5rem;margin-bottom:.5rem}
+  .pain h3{font-size:1.05rem;margin-bottom:.2rem}
+  .pain p{color:var(--muted);font-size:.93rem}
+  @media(max-width:760px){.pains{grid-template-columns:1fr}}
+
+  .inside{background:var(--soft);border-radius:20px;padding:2.4rem;border:1px solid var(--line)}
+  .inside-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem 2rem}
+  .inside li{list-style:none;display:flex;gap:.6rem;font-size:.97rem;padding:.35rem 0}
+  .inside li::before{content:'✓';color:var(--accent);font-weight:800}
+  @media(max-width:600px){.inside-grid{grid-template-columns:1fr}}
+
+  .sample{background:var(--ink-dark);color:#eef0ea;border-radius:18px;padding:1.8rem;max-width:640px;margin:1.6rem auto 0}
+  .sample .lbl{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:.6rem}
+  .sample code{font-family:'JetBrains Mono',monospace;font-size:.86rem;color:#cdd2c2;white-space:pre-wrap;line-height:1.6;display:block}
+
+  .buy{background:#fff;border:2px solid var(--accent);border-radius:22px;padding:2.6rem;text-align:center;max-width:560px;margin:0 auto;box-shadow:var(--sh2)}
+  .buy h2{font-size:1.6rem;margin-bottom:.3rem}
+  .buy .price{margin:.6rem 0}
+  .buy ul{list-style:none;display:inline-grid;gap:.4rem;text-align:left;margin:1rem 0 1.4rem}
+  .buy li{font-size:.95rem;display:flex;gap:.5rem}.buy li::before{content:'✓';color:var(--accent);font-weight:800}
+  .guarantee{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--accent-d);background:var(--accent-l);padding:.4rem 1rem;border-radius:999px;margin-top:1rem}
+
+  .upsell{background:var(--gold-l);border:1px solid var(--gold);border-radius:18px;padding:2rem;text-align:center;max-width:640px;margin:0 auto}
+  .upsell h3{font-size:1.25rem;margin-bottom:.4rem}
+  .upsell p{color:var(--ink2);margin-bottom:1rem}
+  footer{text-align:center;color:var(--muted);font-size:.88rem;padding:2.4rem 0}
+</style>
+</head>
+<body>
+<div class="demo-banner">Sales page for the Contractor AI Toolkit — drop your Gumroad buy link into the buttons before publishing.</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">🛠️ For roofers, remodelers &amp; home-service pros</span>
+    <h1 class="display">Win more jobs with AI — <em>without</em> learning AI.</h1>
+    <p class="lede">40+ copy-paste prompts and scripts that write your estimates, text back missed callers, chase down quotes, and get you paid faster. Open any AI chat, paste, done.</p>
+    <div class="price-row">
+      <span class="price"><s>$79</s>$39</span>
+      <!-- TODO: replace href with your Gumroad product link -->
+      <a href="https://allerion.gumroad.com/l/contractor-ai-toolkit" class="btn btn-primary">Get the toolkit →</a>
+    </div>
+    <p class="micro">Instant download · one-time payment · 30-day money-back guarantee</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">Sound familiar?</span><h2 class="display">You're great on the roof. The office is the problem.</h2></div>
+    <div class="pains">
+      <div class="pain"><div class="ic">📞</div><h3>Missed calls = lost jobs</h3><p>You can't answer mid-job, and the caller's already dialing your competitor.</p></div>
+      <div class="pain"><div class="ic">✍️</div><h3>Quotes eat your nights</h3><p>Estimates and follow-ups pile up until 10pm when you should be resting.</p></div>
+      <div class="pain"><div class="ic">💸</div><h3>Money sits unpaid</h3><p>Invoices go quiet and chasing them feels awkward, so you don't.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">What's inside</span><h2 class="display">40+ ready-to-use prompts &amp; scripts</h2><p>Organized so you can grab exactly what you need in seconds.</p></div>
+    <div class="inside">
+      <ul class="inside-grid">
+        <li>Rough notes → clean itemized estimate</li>
+        <li>The proposal that closes</li>
+        <li>"Your price is too high" reply</li>
+        <li>Follow-ups that un-stick a stalled quote</li>
+        <li>Missed-call text-back script</li>
+        <li>60-second speed-to-lead replies</li>
+        <li>Reactivate dead leads</li>
+        <li>Invoice reminders that aren't awkward</li>
+        <li>Deposit &amp; change-order messages</li>
+        <li>Review requests that actually work</li>
+        <li>Respond to a bad review</li>
+        <li>Job posts + applicant screening</li>
+        <li>Turn any process into an SOP</li>
+        <li>Facebook / Google posts that get calls</li>
+        <li>Supplier emails &amp; weekly scheduling</li>
+        <li>Your "Business Brain" setup (your voice, baked in)</li>
+      </ul>
+    </div>
+
+    <div class="sample">
+      <div class="lbl">Sample · Missed-call text-back</div>
+      <code>"Hi! Sorry we missed your call — happy to help. Is this about a
+roof repair or a full replacement? I can also get you on the
+schedule for a free inspection."</code>
+    </div>
+  </div>
+</section>
+
+<section id="buy">
+  <div class="wrap">
+    <div class="buy">
+      <span class="eyebrow">Get it now</span>
+      <h2 class="display">The Contractor AI Toolkit</h2>
+      <div class="price"><s>$79</s> $39</div>
+      <ul>
+        <li>40+ prompts &amp; scripts (instant download)</li>
+        <li>The "Business Brain" setup</li>
+        <li>Bonus: Lead Leak Calculator</li>
+        <li>Bonus: DIY missed-call setup guide</li>
+        <li>Works with Claude, ChatGPT, or Gemini</li>
+      </ul>
+      <br/>
+      <!-- TODO: replace href with your Gumroad product link -->
+      <a href="https://allerion.gumroad.com/l/contractor-ai-toolkit" class="btn btn-primary">Get the toolkit — $39</a>
+      <div class="guarantee">🛡️ 30-day money-back guarantee — no questions asked</div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="upsell">
+      <h3 class="display">Want it to run without you?</h3>
+      <p>This is the manual version. When you're ready to stop copy-pasting, Allerion installs the automated version — AI that answers missed calls and follows up on every lead by itself.</p>
+      <a href="https://allerion.io" class="btn btn-primary" style="font-size:1rem;padding:.8rem 1.6rem">See LeadCatch →</a>
+    </div>
+  </div>
+</section>
+
+<footer>© Allerion Technologies LLC · <a href="https://allerion.io" style="color:var(--accent-d)">allerion.io</a> · info@allerion.io</footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LeadCatch — Live Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#14180f; --panel:#1b2013; --accent:#7e8c6f; --olive:#5a6850; --gold:#c19a3e;
+    --paper:#f7f8f4; --ink:#181b12; --muted:#8a9180; --line:#2a3122;
+    --font:'Inter',sans-serif; --display:'Fraunces',serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--font);background:
+      radial-gradient(60% 80% at 80% 0%,rgba(193,154,62,.10),transparent 55%),
+      radial-gradient(70% 90% at 0% 100%,rgba(90,104,80,.22),transparent 55%),var(--bg);
+    color:#e9ece2;min-height:100vh;padding:28px 16px;}
+  .wrap{max-width:1040px;margin:0 auto;}
+  .head{text-align:center;margin-bottom:26px}
+  .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,4vw,2.5rem);margin:.4rem 0 .3rem}
+  .sub{color:#b7bdac;max-width:60ch;margin:0 auto;font-size:1rem}
+  .demo{display:grid;grid-template-columns:300px 1fr;gap:26px;align-items:start;margin-top:26px}
+  @media(max-width:780px){.demo{grid-template-columns:1fr;max-width:340px;margin-inline:auto}}
+
+  /* phone */
+  .phone{background:#0d100a;border-radius:38px;padding:12px;border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 30px 70px rgba(0,0,0,.5);position:relative}
+  .phone::before{content:'';position:absolute;top:20px;left:50%;transform:translateX(-50%);
+    width:90px;height:6px;border-radius:99px;background:rgba(255,255,255,.18)}
+  .screen{background:var(--paper);border-radius:28px;overflow:hidden;height:560px;display:flex;flex-direction:column}
+  .top{background:#fff;padding:1.5rem 1rem .7rem;text-align:center;border-bottom:1px solid #e6e8df}
+  .ph-av{width:46px;height:46px;border-radius:50%;background:var(--olive);margin:0 auto .35rem;display:grid;place-items:center;color:#fff;font-weight:700}
+  .ph-name{font-weight:700;font-size:.95rem;color:var(--ink)}
+  .ph-sub{font-size:.72rem;color:#6a7062}
+  .chat{flex:1;padding:.9rem .8rem;display:flex;flex-direction:column;gap:.5rem;overflow-y:auto;background:var(--paper)}
+  .b{max-width:82%;padding:.55rem .75rem;border-radius:16px;font-size:.83rem;line-height:1.35;animation:pop .25s ease}
+  .them{background:#eceee6;color:var(--ink);align-self:flex-start;border-bottom-left-radius:5px}
+  .us{background:var(--olive);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+  .b .tag{display:block;font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;opacity:.7;margin-bottom:.12rem}
+  .typing{align-self:flex-start;color:#6a7062;font-size:.8rem;padding:.3rem .5rem}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#9aa08c;margin:0 1px;animation:blink 1.2s infinite}
+  .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  .composer{display:flex;gap:.5rem;padding:.6rem;border-top:1px solid #e6e8df;background:#fff}
+  .composer input{flex:1;border:1px solid #d7dacd;border-radius:999px;padding:.55rem .9rem;font-size:.85rem;font-family:inherit;outline:none}
+  .composer input:focus{border-color:var(--olive)}
+  .composer button{border:none;background:var(--olive);color:#fff;border-radius:999px;width:38px;height:38px;font-size:1rem;cursor:pointer}
+  .composer button:disabled{opacity:.4;cursor:default}
+
+  /* side panel */
+  .side{display:flex;flex-direction:column;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.3rem}
+  .card h3{font-size:.95rem;margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+  .card h3 .d{width:8px;height:8px;border-radius:50%;background:var(--gold)}
+  .start{width:100%;border:none;border-radius:999px;padding:.85rem;font-weight:700;font-size:1rem;cursor:pointer;
+    background:var(--gold);color:#241d09}
+  .start:hover{filter:brightness(1.05)}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:.6rem;line-height:1.5}
+  .status{display:grid;gap:.5rem}
+  .row{display:flex;justify-content:space-between;font-size:.84rem;padding:.4rem .6rem;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}
+  .row b{color:#e9ece2;font-weight:600}
+  .row .v{color:var(--muted)}
+  .row .v.set{color:var(--gold);font-weight:700}
+  .booked{background:linear-gradient(160deg,rgba(193,154,62,.18),rgba(90,104,80,.10));border-color:rgba(193,154,62,.4)}
+  .prompt-pre{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#aeb59e;white-space:pre-wrap;line-height:1.5;max-height:160px;overflow:auto}
+  .quick{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+  .quick button{font-size:.76rem;border:1px solid var(--line);background:transparent;color:#cdd2c2;border-radius:999px;padding:.3rem .7rem;cursor:pointer}
+  .quick button:hover{border-color:var(--gold);color:var(--gold)}
+  .banner{background:var(--gold);color:#241d09;text-align:center;font-size:.8rem;font-weight:600;padding:.5rem;border-radius:10px;margin-bottom:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="banner">Interactive preview — runs in your browser with no API key. The real backend (Python + Claude + Twilio) is in this same folder.</div>
+  <div class="head">
+    <span class="eyebrow">Allerion · LeadCatch</span>
+    <h1>Watch a missed call turn into a booked job</h1>
+    <p class="sub">A call goes unanswered. In seconds, the AI texts the customer back in your voice, qualifies the job, and books the inspection — before your competitor calls back. Press the button, then reply as the customer.</p>
+  </div>
+
+  <div class="demo">
+    <div class="phone">
+      <div class="screen">
+        <div class="top">
+          <div class="ph-av">🏠</div>
+          <div class="ph-name">Your Roofing Co. <span style="font-weight:400;color:#9aa08c">(demo)</span></div>
+          <div class="ph-sub" id="ph-sub">text message</div>
+        </div>
+        <div class="chat" id="chat"></div>
+        <div class="composer">
+          <input id="inp" placeholder="Reply as the customer…" disabled autocomplete="off" />
+          <button id="send" disabled>↑</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <button class="start" id="start">📞 Simulate a missed call</button>
+        <div class="quick" id="quick" style="display:none"></div>
+        <p class="hint">Tip: try replying like a real homeowner — “storm tore off some shingles”, “it’s an insurance claim”, “tomorrow morning works”.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="d"></span> What the AI captured</h3>
+        <div class="status">
+          <div class="row"><b>Lead</b><span class="v" id="s-lead">missed call · (502) 555-0142</span></div>
+          <div class="row"><b>Job type</b><span class="v" id="s-job">—</span></div>
+          <div class="row"><b>Insurance claim</b><span class="v" id="s-ins">—</span></div>
+          <div class="row" id="row-book"><b>Inspection</b><span class="v" id="s-book">—</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><span class="d"></span> The brain (shared with the real backend)</h3>
+        <div class="prompt-pre" id="prompt"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// The SAME system prompt the Python backend sends to Claude (opus-4-8).
+const SYSTEM_PROMPT = `You are the text-back assistant for the contractor (this demo uses a sample roofing company).
+A customer just called and we missed it. Text them back immediately, warmly, in the owner's voice.
+Goal: qualify the job in 2-3 short questions, then book a free inspection.
+Capture: (1) repair vs full replacement, (2) insurance claim or out-of-pocket, (3) a time for the inspection.
+Keep each text under 2 sentences. One question at a time. Never sound robotic.
+When you have job type + a time, confirm the booking and stop asking questions.`;
+document.getElementById('prompt').textContent = SYSTEM_PROMPT;
+
+const chat = document.getElementById('chat');
+const inp = document.getElementById('inp');
+const send = document.getElementById('send');
+const startBtn = document.getElementById('start');
+const quick = document.getElementById('quick');
+
+const captured = { job:null, insurance:null, time:null };
+let stage = 0; // 0 greet, 1 got job, 2 got insurance, 3 booked
+
+function bubble(text, who, tag){
+  const d=document.createElement('div');
+  d.className='b '+who;
+  d.innerHTML=(tag?`<span class="tag">${tag}</span>`:'')+text;
+  chat.appendChild(d); chat.scrollTop=chat.scrollHeight;
+}
+function typing(){
+  const t=document.createElement('div');t.className='typing';t.id='typing';
+  t.innerHTML='<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+  chat.appendChild(t);chat.scrollTop=chat.scrollHeight;
+}
+function stopTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+function agent(text, tag, delay=900){
+  typing();
+  setTimeout(()=>{stopTyping();bubble(text,'us',tag);},delay);
+}
+function setStatus(){
+  const m={job:'s-job',insurance:'s-ins',time:'s-book'};
+  if(captured.job){const e=document.getElementById('s-job');e.textContent=captured.job;e.classList.add('set');}
+  if(captured.insurance){const e=document.getElementById('s-ins');e.textContent=captured.insurance;e.classList.add('set');}
+  if(captured.time){const e=document.getElementById('s-book');e.textContent=captured.time;e.classList.add('set');document.getElementById('row-book').classList.add('booked');}
+}
+
+// Lightweight stand-in for Claude's reasoning so the preview runs offline.
+// The real backend sends SYSTEM_PROMPT + the conversation to claude-opus-4-8.
+function think(msg){
+  const t=msg.toLowerCase();
+  if(stage===0){
+    if(/replace|full|whole|tear/.test(t)) captured.job='Full replacement';
+    else if(/repair|fix|leak|patch|shingle|few/.test(t)) captured.job='Repair';
+    else captured.job='Repair'; // default guess; real model asks if unclear
+    stage=1; setStatus();
+    return {tag:'qualifying', text:`Got it — sounds like a ${captured.job.toLowerCase()}. Quick one: is this going through an insurance claim, or out of pocket?`};
+  }
+  if(stage===1){
+    captured.insurance = /insurance|claim|adjuster|storm|hail|wind/.test(t) ? 'Yes — claim' : 'Out of pocket';
+    stage=2; setStatus();
+    const note = captured.insurance==='Yes — claim' ? "We handle insurance claims daily, so you're in good hands. " : "Easy. ";
+    return {tag:'qualifying', text:`${note}I can get a free inspection on the books — does tomorrow 9 AM or Thursday 2 PM work better?`};
+  }
+  if(stage===2){
+    let when='Tomorrow 9:00 AM';
+    if(/thurs|2|afternoon|pm/.test(t)) when='Thursday 2:00 PM';
+    if(/tomorrow|9|morning|am/.test(t)) when='Tomorrow 9:00 AM';
+    captured.time=when; stage=3; setStatus();
+    document.getElementById('ph-sub').textContent='job booked ✓';
+    return {tag:'booked', text:`Perfect — you're booked for ${when}. I'll text a reminder and the inspector's name shortly. Thanks for reaching out! 🏠`};
+  }
+  return {tag:null, text:`You're all set for ${captured.time}. Anything else I can help with?`};
+}
+
+function customerSend(text){
+  bubble(text,'them');
+  inp.value='';
+  const turn=think(text);
+  agent(turn.text, turn.tag, 1000);
+  if(stage>=3){ showQuick(['Start over']); }
+}
+
+function showQuick(opts){
+  quick.style.display='flex'; quick.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('button');b.textContent=o;
+    b.onclick=()=>{ if(o==='Start over'){reset();} else customerSend(o); };
+    quick.appendChild(b);});
+}
+
+function reset(){
+  chat.innerHTML=''; stage=0; captured.job=captured.insurance=captured.time=null;
+  ['s-job','s-ins','s-book'].forEach(id=>{const e=document.getElementById(id);e.textContent='—';e.classList.remove('set');});
+  document.getElementById('row-book').classList.remove('booked');
+  document.getElementById('ph-sub').textContent='text message';
+  inp.disabled=true; send.disabled=true; quick.style.display='none';
+  startBtn.disabled=false; startBtn.textContent='📞 Simulate a missed call';
+}
+
+startBtn.onclick=()=>{
+  startBtn.disabled=true; startBtn.textContent='☎️ Call missed at '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  bubble('Missed call — (502) 555-0142','them','call');
+  agent("Hi! Sorry we just missed your call — happy to help. Is this about a roof repair or a full replacement?", 'auto text-back', 1100);
+  setTimeout(()=>{ inp.disabled=false; send.disabled=false; inp.focus();
+    showQuick(['Storm tore off some shingles','Need a full replacement','Just a small leak']); },1300);
+};
+
+send.onclick=()=>{ const v=inp.value.trim(); if(v) customerSend(v); };
+inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){const v=inp.value.trim(); if(v) customerSend(v);} });
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Allerion Code (_/\_) — CLI UI</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --accent:#7e8c6f; --olive:#5a6850; --silver:#9da2a6; --gold:#c19a3e; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:"JetBrains Mono",monospace; background:#0c0f08; color:#cdd2c2; padding:30px; }
+  .term { max-width:720px; margin:0 auto; background:#11150c; border:1px solid #283021; border-radius:14px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.5); }
+  .bar { background:#0a0d06; padding:.6rem .9rem; display:flex; align-items:center; gap:.5rem; border-bottom:1px solid #283021; }
+  .dot { width:11px; height:11px; border-radius:50%; }
+  .body { padding:1.2rem 1.3rem; font-size:.84rem; line-height:1.7; }
+  .banner { color:#fff; font-weight:800; letter-spacing:.18em; }
+  .dim { color:#79806c; }
+  .ok { color:#9fd07a; }
+  .olive { color:var(--accent); }
+  .gold { color:var(--gold); }
+  .tool { border-left:2px solid var(--olive); padding:.15rem .8rem; margin:.5rem 0; color:#aeb59e; }
+  .status { margin-top:1rem; border-top:1px solid #283021; padding-top:.7rem; display:flex; gap:1.2rem; color:#79806c; font-size:.76rem; }
+  .status b { color:#cdd2c2; font-weight:700; }
+  .cursor { display:inline-block; width:8px; height:1rem; background:var(--gold); vertical-align:-2px; }
+</style>
+</head>
+<body>
+  <div class="term">
+    <div class="bar">
+      <span class="dot" style="background:#e0686b"></span>
+      <span class="dot" style="background:#e2b85a"></span>
+      <span class="dot" style="background:#7fcf6a"></span>
+      <span class="dim" style="margin-left:.6rem">ally — ~/projects/allerion</span>
+    </div>
+    <div class="body">
+      <div class="banner">_/\_  ALLERION&nbsp;CODE</div>
+      <div class="dim">v1.0.0 · claude-opus-4-8 · ~/projects/allerion</div>
+      <br/>
+      <div><span class="olive">›</span> add a budget cap to the cost meter</div>
+      <div class="tool">⏺ read_file&nbsp; src/cost.ts <span class="dim">(42 lines)</span></div>
+      <div class="tool">⏺ edit_file&nbsp; src/cost.ts <span class="ok">✓ applied</span></div>
+      <div class="tool">⏺ run_bash&nbsp;&nbsp; npm test <span class="ok">✓ 18 passing</span></div>
+      <div><span class="gold">●</span> Done. Added <span class="ok">--budget</span> with a warn-at-80% threshold and a hard stop.</div>
+      <div class="status">
+        <span><b>opus-4-8</b></span>
+        <span>tokens <b>12.4k</b></span>
+        <span>cost <b>$0.21</b></span>
+        <span>budget <b class="gold">$5.00</b></span>
+        <span class="olive">› <span class="cursor"></span></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

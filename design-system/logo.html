@@ -1,0 +1,59 @@
+<!-- @dsCard group="Brand" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Allerion — Logo / Wordmark</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --accent:#5a6850; --silver:#9da2a6; --ink:#181b12; --paper:#fbfbf8; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Inter,sans-serif; background:var(--paper); color:var(--ink); padding:40px; }
+  h1 { font-size:1rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:28px; }
+  .row { display:flex; gap:40px; flex-wrap:wrap; align-items:center; }
+  .tile { border:1px solid #e6e8df; border-radius:16px; padding:32px 40px; display:flex; flex-direction:column; gap:14px; align-items:center; }
+  .tile.dark { background:#14180f; border-color:#2a2f22; }
+  .tile.dark .wm, .tile.dark .glyphtxt { color:#f4f5f0; }
+  .wm { display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.1em; font-size:1.5rem; }
+  .wm svg { height:34px; }
+  .glyphtxt { font-family:"JetBrains Mono",monospace; font-size:2.2rem; font-weight:800; letter-spacing:.1em; }
+  .cap { font-size:.72rem; color:var(--silver); letter-spacing:.08em; text-transform:uppercase; }
+  .swatch-note { margin-top:8px; font-size:.8rem; color:#6a7062; }
+</style>
+</head>
+<body>
+  <h1>Allerion — Logo &amp; Wordmark “_/\_”</h1>
+  <div class="row">
+    <div class="tile">
+      <div class="wm">
+        <svg viewBox="0 0 160 50" style="fill:none;stroke-linecap:square;">
+          <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="8"/>
+          <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="8" stroke-linejoin="miter"/>
+          <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="8"/>
+          <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="8"/>
+        </svg>
+        ALLERION
+      </div>
+      <span class="cap">Primary lockup · light</span>
+    </div>
+    <div class="tile dark">
+      <div class="wm">
+        <svg viewBox="0 0 160 50" style="fill:none;stroke-linecap:square;">
+          <path d="M5 45 L 45 45" stroke="#9da2a6" stroke-width="8"/>
+          <path d="M45 45 L 80 5 L 115 45" stroke="#5a6850" stroke-width="8" stroke-linejoin="miter"/>
+          <path d="M65 25 L 95 25" stroke="#5a6850" stroke-width="8"/>
+          <path d="M115 45 L 155 45" stroke="#9da2a6" stroke-width="8"/>
+        </svg>
+        ALLERION
+      </div>
+      <span class="cap">Primary lockup · dark</span>
+    </div>
+    <div class="tile dark">
+      <div class="glyphtxt">_/\_</div>
+      <span class="cap">Glyph mark · CLI / `ally`</span>
+    </div>
+  </div>
+  <p class="swatch-note">The mark = two silver underscores (tactical base) flanking an olive architectural peak with an inner support beam. Used as the Allerion Code (`_/\_`) brand.</p>
+</body>
+</html>

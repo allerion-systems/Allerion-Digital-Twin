@@ -1,0 +1,40 @@
+<!-- @dsCard group="Components" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Allerion — Forms &amp; Inputs</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{--accent:#5a6850;--gold:#c19a3e;--ink-dark:#14180f;--line2:#d7dacd}
+  *{box-sizing:border-box;margin:0}body{font-family:Inter,sans-serif;background:#fbfbf8;color:#181b12;padding:40px}
+  h1{font-size:1rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:760px;align-items:start}
+  /* light input */
+  .lf label{display:block;font-size:.84rem;font-weight:600;margin-bottom:.3rem}
+  .lf input{width:100%;border:1px solid var(--line2);border-radius:12px;padding:.75rem .9rem;font-size:1rem;font-family:inherit;outline:none}
+  .lf input:focus{border-color:var(--accent)}
+  .lf .btn{margin-top:.8rem;width:100%;border:none;background:var(--accent);color:#fff;border-radius:999px;padding:.85rem;font-weight:700;font-size:1rem;cursor:pointer}
+  /* dark signup card */
+  .signup{background:var(--ink-dark);color:#fff;border-radius:18px;padding:1.8rem}
+  .signup h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.3rem;text-align:center;margin-bottom:1rem}
+  .signup label{display:block;font-size:.8rem;color:#c3c9b8;margin-bottom:.3rem;font-weight:600}
+  .signup .field{margin-bottom:.8rem}
+  .signup input{width:100%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:12px;padding:.75rem .9rem;font-size:1rem;font-family:inherit;outline:none}
+  .signup input:focus{border-color:var(--gold)}.signup input::placeholder{color:#8a9180}
+  .signup .btn{width:100%;border:none;background:var(--accent);color:#fff;border-radius:999px;padding:.85rem;font-weight:700;font-size:1rem;cursor:pointer;margin-top:.4rem}
+  .cap{font-size:.8rem;color:#6a7062;margin-bottom:10px}
+</style></head><body>
+  <h1>Forms &amp; Inputs</h1>
+  <div class="grid">
+    <div><div class="cap">Light input</div><div class="lf">
+      <label>Average job value</label><input value="$8,000"/>
+      <button class="btn">Book a free call</button>
+    </div></div>
+    <div><div class="cap">Dark signup card</div><div class="signup">
+      <h3>Start your free trial</h3>
+      <div class="field"><label>Business name</label><input placeholder="e.g. Summit Roofing"/></div>
+      <div class="field"><label>Business phone</label><input placeholder="(502) 555-0142"/></div>
+      <div class="field"><label>Email</label><input placeholder="you@yourco.com"/></div>
+      <button class="btn">Start free trial →</button>
+    </div></div>
+  </div>
+</body></html>

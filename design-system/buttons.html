@@ -1,0 +1,36 @@
+<!-- @dsCard group="Components" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Allerion — Buttons</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --accent:#5a6850; --accent-d:#424d39; --ink:#181b12; --line:#d7dacd; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Inter,sans-serif; background:#fbfbf8; color:#181b12; padding:40px; }
+  h1 { font-size:1rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:24px; }
+  .group { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin-bottom:18px; }
+  .lbl { font-family:"JetBrains Mono",monospace; font-size:.72rem; color:#6a7062; width:120px; }
+  .btn { display:inline-flex; align-items:center; gap:.5rem; font-weight:600; border-radius:999px; padding:.9rem 1.7rem; font-size:1rem; border:1.5px solid transparent; cursor:pointer; }
+  .btn-primary { background:var(--accent); color:#fff; box-shadow:0 6px 16px rgba(90,104,80,.3); }
+  .btn-ghost { background:#fff; color:var(--ink); border-color:var(--line); }
+  .btn-lg { padding:1.1rem 2.1rem; font-size:1.06rem; }
+  .btn-sm { padding:.6rem 1.1rem; font-size:.88rem; }
+</style>
+</head>
+<body>
+  <h1>Buttons</h1>
+  <div class="group"><span class="lbl">primary</span>
+    <button class="btn btn-primary btn-sm">Book a call</button>
+    <button class="btn btn-primary">Book a free call</button>
+    <button class="btn btn-primary btn-lg">Book a free 20-min fit call</button>
+  </div>
+  <div class="group"><span class="lbl">ghost</span>
+    <button class="btn btn-ghost btn-sm">Learn more</button>
+    <button class="btn btn-ghost">See what missed leads cost</button>
+    <button class="btn btn-ghost btn-lg">See the calculator →</button>
+  </div>
+</body>
+</html>

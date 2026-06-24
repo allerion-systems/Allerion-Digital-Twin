@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're in — let's go live | LeadCatch</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#fbfbf8;--soft:#f3f4ee;--ink:#181b12;--ink2:#3b4034;--muted:#6a7062;--line:#e6e8df;
+    --accent:#5a6850;--accent-d:#424d39;--accent-l:#eef1e7;--gold:#c19a3e;--ink-dark:#14180f;--r:16px;
+    --sh:0 1px 2px rgba(24,27,18,.04),0 2px 8px rgba(24,27,18,.05);--font:'Inter',sans-serif;--display:'Fraunces',serif}
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto;padding:0 22px}
+  .hero{text-align:center;padding:4rem 0 2rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:-30% -20% auto -20%;height:420px;z-index:-1;
+    background:radial-gradient(50% 60% at 50% 0,rgba(193,154,62,.14),transparent 60%),radial-gradient(60% 70% at 50% 30%,rgba(90,104,80,.12),transparent 60%)}
+  .seal{width:64px;height:64px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:1.7rem;margin:0 auto 1.2rem;box-shadow:0 8px 22px rgba(90,104,80,.35)}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(1.9rem,5vw,2.7rem);margin-bottom:.5rem}
+  h1 span{color:var(--accent)}
+  .lede{color:var(--ink2);font-size:1.1rem;max-width:46ch;margin:0 auto}
+  .trial-pill{display:inline-block;margin-top:1rem;font-size:.85rem;font-weight:700;color:var(--accent-d);background:var(--accent-l);padding:.4rem 1rem;border-radius:999px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:2rem;box-shadow:var(--sh);margin:1.4rem 0}
+  .card h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin-bottom:.3rem}
+  .card .note{color:var(--muted);font-size:.95rem;margin-bottom:1.3rem}
+  .steps{list-style:none;display:grid;gap:1rem}
+  .steps li{display:flex;gap:1rem;align-items:flex-start}
+  .steps .n{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--accent-l);color:var(--accent-d);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+  .steps h3{font-size:1rem;margin-bottom:.1rem}
+  .steps p{color:var(--muted);font-size:.92rem}
+  code{font-family:'JetBrains Mono',monospace;background:var(--soft);padding:.1rem .4rem;border-radius:6px;font-size:.85rem}
+  .next{background:var(--ink-dark);color:#eef0ea;border-radius:var(--r);padding:1.8rem;text-align:center}
+  .next h2{color:#fff;font-family:var(--display);font-weight:600;font-size:1.3rem;margin-bottom:.4rem}
+  .next p{color:#b9bfae;font-size:.96rem}
+  .btn{display:inline-block;margin-top:1.1rem;background:var(--gold);color:#241d09;font-weight:700;border-radius:999px;padding:.8rem 1.6rem;text-decoration:none}
+  footer{text-align:center;color:var(--muted);font-size:.88rem;padding:2.4rem 0}
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="seal">✓</div>
+      <h1>You're in, <span id="biz">there</span>.</h1>
+      <p class="lede">Your LeadCatch trial just started. One 2-minute step and every missed call starts booking itself.</p>
+      <span class="trial-pill">14-day free trial · cancel anytime</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="card">
+      <h2>Turn it on (2 minutes)</h2>
+      <p class="note">Forward calls you don't answer to your LeadCatch number. That's the whole install — we texted these steps to your phone too.</p>
+      <ol class="steps">
+        <li><span class="n">1</span><div><h3>Grab your LeadCatch number</h3><p>Check the welcome text we just sent — it has the number to forward to.</p></div></li>
+        <li><span class="n">2</span><div><h3>Turn on "forward on no answer"</h3><p>On most phones, dial <code>*92</code> + your LeadCatch number to enable it (<code>*93</code> turns it off). We'll send your carrier's exact code.</p></div></li>
+        <li><span class="n">3</span><div><h3>Test it</h3><p>Call your own business line and let it ring out. You'll get the text-back in seconds — that's a customer's experience.</p></div></li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>What happens now</h2>
+      <p class="note" style="margin:0">Every missed caller gets an instant, friendly text in your business's voice. LeadCatch qualifies the job, offers the times you've marked open, books it, and texts you the details. You'll see your first recovered job within days.</p>
+    </div>
+
+    <div class="next">
+      <h2>Need a hand setting it up?</h2>
+      <p>Reply <strong>HELP</strong> to the welcome text, or book a 10-minute setup call and we'll do it with you.</p>
+      <!-- TODO: your real Cal.com link -->
+      <a href="https://cal.com/allerion/setup" class="btn">Book a 10-min setup call</a>
+    </div>
+  </main>
+
+  <footer>LeadCatch by Allerion Technologies LLC · info@allerion.io</footer>
+
+  <script>
+    const biz = new URLSearchParams(location.search).get('biz');
+    if (biz) document.getElementById('biz').textContent = biz;
+  </script>
+</body>
+</html>
