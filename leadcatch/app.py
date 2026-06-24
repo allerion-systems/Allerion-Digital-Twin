@@ -19,7 +19,8 @@ from typing import Literal
 
 import anthropic
 from pydantic import BaseModel
-from fastapi import FastAPI, Form, Response
+from fastapi import FastAPI, Form, Response, Request, Header
+from fastapi.responses import FileResponse
 from twilio.rest import Client as TwilioClient
 
 # --- Config -----------------------------------------------------------------
@@ -140,24 +141,95 @@ import stripe  # noqa: E402
 
 stripe.api_key = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_PRICE_ID = os.environ.get("STRIPE_PRICE_ID", "")        # the $97/mo price
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 PUBLIC_URL = os.environ.get("PUBLIC_URL", "http://localhost:8000")
 
-SIGNUPS: dict[str, dict] = {}  # phone -> {business, email}; swap for a DB
+# Tenant store. phone (the business's number) -> tenant record.
+# In prod this is a DB row; here it's in-memory.
+TENANTS: dict[str, dict] = {}  # phone -> {business, email, customer_id, sub_id, active}
+
+
+def is_active(business_phone: str) -> bool:
+    """LeadCatch only answers for businesses with an active/trialing sub."""
+    t = TENANTS.get(business_phone)
+    return bool(t and t.get("active"))
 
 
 @app.post("/signup")
 async def signup(business: str = Form(...), phone: str = Form(...), email: str = Form(...)):
-    SIGNUPS[phone] = {"business": business, "email": email}
+    TENANTS[phone] = {"business": business, "email": email, "active": False}
     session = stripe.checkout.Session.create(
         mode="subscription",
         line_items=[{"price": STRIPE_PRICE_ID, "quantity": 1}],
-        subscription_data={"trial_period_days": 14},
+        subscription_data={
+            "trial_period_days": 14,
+            "metadata": {"business": business, "phone": phone},
+        },
         customer_email=email,
         success_url=f"{PUBLIC_URL}/welcome?biz={business}",
         cancel_url=f"{PUBLIC_URL}/?canceled=1",
+        # session-level metadata is what checkout.session.completed reads
         metadata={"business": business, "phone": phone},
     )
     return {"checkout_url": session.url}
+
+
+@app.post("/stripe/webhook")
+async def stripe_webhook(request: Request, stripe_signature: str = Header(None)):
+    """Stripe -> us. Activates a tenant on payment, deactivates on cancel."""
+    payload = await request.body()
+    try:
+        event = stripe.Webhook.construct_event(payload, stripe_signature, STRIPE_WEBHOOK_SECRET)
+    except (ValueError, stripe.error.SignatureVerificationError):
+        return Response(status_code=400)
+
+    obj = event["data"]["object"]
+    etype = event["type"]
+
+    if etype == "checkout.session.completed":
+        meta = obj.get("metadata") or {}
+        phone = meta.get("phone")
+        if phone:
+            TENANTS.setdefault(phone, {}).update(
+                business=meta.get("business"),
+                customer_id=obj.get("customer"),
+                sub_id=obj.get("subscription"),
+                active=True,  # trialing counts as active
+            )
+            _onboard(phone)
+
+    elif etype in ("customer.subscription.deleted",
+                   "customer.subscription.paused"):
+        for phone, t in TENANTS.items():
+            if t.get("sub_id") == obj.get("id"):
+                t["active"] = False
+
+    elif etype == "invoice.payment_failed":
+        # Soft-flag; Stripe will retry. Deactivate on final dunning failure
+        # via customer.subscription.deleted above.
+        pass
+
+    return {"received": True}
+
+
+def _onboard(phone: str) -> None:
+    """Kick off activation: text the owner the 2-minute call-forward setup."""
+    t = TENANTS.get(phone, {})
+    if not OWNER_NUMBER and not t.get("email"):
+        return
+    try:
+        send_sms(phone, (
+            f"Welcome to LeadCatch, {t.get('business','')}! "
+            "You're live. Final step (2 min): turn on call-forward-on-no-answer "
+            "to this number. Reply HELP and we'll walk you through it."
+        ))
+    except Exception:
+        pass  # SMS failures shouldn't break the webhook ack
+
+
+@app.get("/welcome")
+async def welcome():
+    return FileResponse(os.path.join(os.path.dirname(__file__), "welcome.html"))
 
 
 # --- Offline demo (no Twilio, no webhook) ------------------------------------

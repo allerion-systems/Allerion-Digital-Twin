@@ -49,6 +49,27 @@ Then in the Twilio console:
 - Conversation state is in-memory for the MVP — swap `CONVERSATIONS` for Redis or a
   DB before production.
 
+## Go live self-serve (Stripe)
+
+The self-serve flow: `landing.html` → `/signup` → Stripe Checkout (14-day trial)
+→ `checkout.session.completed` webhook activates the tenant → `/welcome` onboarding.
+
+1. In **Stripe**, create a recurring **$97/mo price** → put its id in `STRIPE_PRICE_ID`,
+   and your secret key in `STRIPE_SECRET_KEY`.
+2. Create a **webhook** pointing at `https://your-host/stripe/webhook`, subscribe to
+   `checkout.session.completed`, `customer.subscription.deleted`,
+   `customer.subscription.paused`, `invoice.payment_failed` → put the signing secret
+   in `STRIPE_WEBHOOK_SECRET`.
+3. Point `landing.html`'s form at `POST /signup` (uncomment the fetch) and host it.
+4. Test with Stripe test keys + `stripe listen --forward-to localhost:8000/stripe/webhook`.
+
+Endpoints: `POST /signup` (start trial), `POST /stripe/webhook` (activate/deactivate),
+`GET /welcome` (onboarding page). Tenants are tracked in `TENANTS` (swap for a DB);
+`is_active()` gates the text-back so only paying tenants get answered.
+
+> Multi-tenant TODO: map each business's Twilio `To` number to its tenant so one
+> deployment serves many contractors. The single-business path works as-is.
+
 ## Productize → service ladder
 
 - **Diagnose ($1,500):** "where are your leads leaking?" audit → the LeadCatch spec.
