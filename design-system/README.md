@@ -12,8 +12,13 @@ tagged with a first-line `<!-- @dsCard group="…" -->` marker so the Claude Des
 | `logo.html` | Brand | The `_/\_` wordmark (light + dark) and glyph mark |
 | `colors.html` | Foundations | Color tokens (olive, silver, gold, ink, surfaces) |
 | `typography.html` | Foundations | Fraunces display + Inter body + JetBrains mono scale |
+| `badges.html` | Components | Eyebrow, pills, price-pill, tag, "most popular" badge |
 | `buttons.html` | Components | Primary / ghost buttons in 3 sizes |
-| `cli-ui.html` | Components | The Allerion Code (`ally`) terminal UI mock |
+| `cards.html` | Components | Step, feature, and stat cards |
+| `pricing.html` | Components | Solo / Crew pricing plans (LeadCatch) |
+| `forms.html` | Components | Light inputs + the dark trial-signup card |
+| `cli-ui.html` | Components | The Allerion Code (`ally`) terminal UI |
+| `sms-mockup.html` | Patterns | The missed-call → AI text-back conversation |
 
 ## How to sync to claude.ai/design (`/design-sync`)
 
