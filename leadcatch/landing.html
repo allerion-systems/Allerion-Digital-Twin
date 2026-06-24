@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LeadCatch — Never lose a job to a missed call again | by Allerion</title>
+<meta name="description" content="LeadCatch texts your missed callers back in seconds, qualifies the job, and books it — automatically. Set up in 10 minutes. 14-day free trial, then $97/mo. No contract." />
+<meta property="og:title" content="LeadCatch — your missed calls, answered automatically" />
+<meta property="og:description" content="Missed-call text-back for contractors. Books jobs while you're on the roof. Free 14-day trial." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfbf8;--soft:#f3f4ee;--ink:#181b12;--ink2:#3b4034;--muted:#6a7062;
+    --line:#e6e8df;--line2:#d7dacd;--accent:#5a6850;--accent-d:#424d39;--accent-l:#eef1e7;
+    --gold:#c19a3e;--gold-l:#f3ead2;--ink-dark:#14180f;
+    --font:'Inter',sans-serif;--display:'Fraunces',serif;--r:16px;
+    --sh1:0 1px 2px rgba(24,27,18,.04),0 2px 8px rgba(24,27,18,.05);
+    --sh2:0 4px 12px rgba(24,27,18,.06),0 16px 40px rgba(24,27,18,.07);
+  }
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .display{font-family:var(--display);font-weight:600;letter-spacing:-.015em}
+  .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:700;border-radius:999px;
+    padding:.95rem 1.8rem;font-size:1.02rem;cursor:pointer;border:1.5px solid transparent;transition:transform .18s,box-shadow .18s,background .18s}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(90,104,80,.3)}
+  .btn-primary:hover{background:var(--accent-d);transform:translateY(-2px)}
+  .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line2)}
+  .btn-lg{padding:1.1rem 2.2rem;font-size:1.08rem}
+  nav{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;padding:.9rem 22px;max-width:1080px;margin:0 auto}
+  .brand{font-weight:800;letter-spacing:.04em;font-size:1.15rem;display:flex;align-items:center;gap:.5rem}
+  .brand .by{font-size:.7rem;font-weight:600;color:var(--muted)}
+  .price-pill{font-size:.8rem;font-weight:600;color:var(--accent-d);background:var(--accent-l);padding:.35rem .8rem;border-radius:999px}
+  @media(max-width:640px){.price-pill{display:none}}
+
+  .hero{padding:4rem 0 3rem;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:-30% -10% auto -10%;height:600px;z-index:-1;
+    background:radial-gradient(50% 60% at 50% 0,rgba(193,154,62,.12),transparent 60%),radial-gradient(60% 70% at 20% 20%,rgba(90,104,80,.12),transparent 60%)}
+  .hero .tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;color:var(--accent-d);background:#fff;border:1px solid var(--line2);padding:.45rem 1rem;border-radius:999px;box-shadow:var(--sh1);margin-bottom:1.3rem}
+  .hero h1{font-size:clamp(2.2rem,5.5vw,3.7rem);line-height:1.05;max-width:16ch;margin:0 auto 1.1rem}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero .lede{font-size:clamp(1.05rem,2vw,1.28rem);color:var(--ink2);max-width:54ch;margin:0 auto 1.8rem}
+  .hero-cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+  .micro{font-size:.85rem;color:var(--muted);margin-top:.9rem}
+
+  .strip{background:var(--ink-dark);color:#eef0ea;border-radius:20px;padding:2.4rem 1.5rem;margin-top:2.6rem;position:relative;overflow:hidden}
+  .strip::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 120% at 85% 0,rgba(193,154,62,.16),transparent 55%),radial-gradient(50% 100% at 0 100%,rgba(90,104,80,.3),transparent 55%)}
+  .strip-grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;text-align:center}
+  .strip .n{font-family:var(--display);font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:600;color:#fff}
+  .strip .n .u{color:var(--gold)}
+  .strip .l{font-size:.9rem;color:#b9bfae;margin-top:.4rem}
+  .strip-note{position:relative;text-align:center;margin-top:1.4rem;font-size:.78rem;color:#9aa08c}
+  @media(max-width:600px){.strip-grid{grid-template-columns:1fr;gap:1.5rem}}
+
+  section{padding:4.5rem 0}
+  .head{text-align:center;max-width:60ch;margin:0 auto 2.8rem}
+  .head h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin:.6rem 0}
+  .head p{color:var(--muted);font-size:1.05rem}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1.8rem;box-shadow:var(--sh1)}
+  .step .n{width:36px;height:36px;border-radius:11px;background:var(--accent-l);color:var(--accent-d);font-weight:800;display:grid;place-items:center;margin-bottom:.9rem}
+  .step h3{font-size:1.15rem;margin-bottom:.35rem}
+  .step p{color:var(--muted);font-size:.96rem}
+  @media(max-width:780px){.steps{grid-template-columns:1fr}}
+
+  .demo-cta{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:2.4rem;text-align:center;max-width:760px;margin:0 auto}
+  .demo-cta h2{font-size:1.5rem;margin-bottom:.5rem}
+  .demo-cta p{color:var(--muted);margin-bottom:1.3rem}
+
+  /* pricing */
+  .pricing{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;max-width:760px;margin:0 auto;align-items:stretch}
+  .plan{background:#fff;border:1px solid var(--line);border-radius:18px;padding:2rem;display:flex;flex-direction:column;box-shadow:var(--sh1)}
+  .plan.feat{border:2px solid var(--accent);box-shadow:var(--sh2);position:relative}
+  .plan.feat::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;padding:.25rem .8rem;border-radius:999px;letter-spacing:.04em}
+  .plan h3{font-size:1.1rem}
+  .plan .p{font-family:var(--display);font-size:2.4rem;font-weight:600;margin:.4rem 0}
+  .plan .p span{font-size:1rem;color:var(--muted);font-family:var(--font);font-weight:500}
+  .plan ul{list-style:none;margin:1rem 0 1.4rem;display:grid;gap:.55rem}
+  .plan li{font-size:.94rem;color:var(--ink2);display:flex;gap:.5rem}
+  .plan li::before{content:'✓';color:var(--accent);font-weight:800}
+  .plan .btn{margin-top:auto;width:100%}
+  @media(max-width:640px){.pricing{grid-template-columns:1fr}}
+
+  /* signup */
+  .signup{background:var(--ink-dark);color:#fff;border-radius:22px;padding:2.6rem;max-width:620px;margin:0 auto;position:relative;overflow:hidden}
+  .signup::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 120% at 50% 0,rgba(193,154,62,.16),transparent 60%),radial-gradient(60% 100% at 50% 120%,rgba(90,104,80,.34),transparent 60%)}
+  .signup .in{position:relative}
+  .signup h2{font-family:var(--display);font-weight:600;font-size:1.7rem;text-align:center;margin-bottom:.4rem}
+  .signup .sub{text-align:center;color:#bcc2b1;margin-bottom:1.5rem}
+  .field{margin-bottom:.9rem}
+  .field label{display:block;font-size:.82rem;color:#c3c9b8;margin-bottom:.3rem;font-weight:600}
+  .field input{width:100%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;border-radius:12px;padding:.8rem .9rem;font-size:1rem;font-family:inherit;outline:none}
+  .field input:focus{border-color:var(--gold)}
+  .field input::placeholder{color:#8a9180}
+  .signup .btn{width:100%;margin-top:.5rem}
+  .signup .fine{text-align:center;font-size:.78rem;color:#9aa08c;margin-top:1rem;line-height:1.5}
+  #ok{display:none;text-align:center;background:rgba(193,154,62,.14);border:1px solid rgba(193,154,62,.4);border-radius:14px;padding:1.4rem;color:#f3ead2}
+
+  .faq{max-width:760px;margin:0 auto}
+  details{border:1px solid var(--line);border-radius:var(--r);padding:1.1rem 1.3rem;margin-bottom:.8rem;background:#fff;box-shadow:var(--sh1)}
+  summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:'+';color:var(--accent);font-size:1.4rem;line-height:1}
+  details[open] summary::after{content:'–'}
+  details p{color:var(--muted);margin-top:.7rem}
+
+  footer{padding:2.4rem 0;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem;text-align:center}
+  .demo-banner{background:var(--ink-dark);color:#d9c089;text-align:center;font-size:.8rem;padding:.5rem;font-weight:500}
+</style>
+</head>
+<body>
+<div class="demo-banner">Self-serve product page for LeadCatch — wire the form to Stripe Checkout + your signup endpoint before launch.</div>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand">LeadCatch <span class="by">by Allerion</span></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <span class="price-pill">14-day free trial</span>
+      <a href="#start" class="btn btn-primary" style="padding:.6rem 1.2rem;font-size:.95rem">Start free</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">📞 For roofing &amp; home-service contractors</span>
+    <h1 class="display">Never lose a job to a <em>missed call</em> again.</h1>
+    <p class="lede">When you can't pick up, LeadCatch texts the caller back in seconds, asks the right questions, and books the job — automatically. You stay on the roof. The work books itself.</p>
+    <div class="hero-cta">
+      <a href="#start" class="btn btn-primary btn-lg">Start 14-day free trial</a>
+      <a href="./preview.html" class="btn btn-ghost btn-lg">See it work →</a>
+    </div>
+    <p class="micro">No contract · cancel anytime · set up in ~10 minutes</p>
+
+    <div class="strip">
+      <div class="strip-grid">
+        <div><div class="n">60<span class="u">%</span></div><div class="l">of contractor calls go unanswered</div></div>
+        <div><div class="n">85<span class="u">%</span></div><div class="l">of those callers never call back</div></div>
+        <div><div class="n">21<span class="u">×</span></div><div class="l">more likely to win if you reply in &lt;5 min</div></div>
+      </div>
+      <p class="strip-note">Published trades benchmarks — exactly the leak LeadCatch closes.</p>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Dead simple</span>
+      <h2 class="display">Up and running in 10 minutes</h2>
+      <p>No new phone number to learn. No app for your crew. It works with the number you already have.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Sign up</h3><p>Enter your business name and your existing business phone number. Start your free trial — no card games, cancel anytime.</p></div>
+      <div class="step"><div class="n">2</div><h3>Forward missed calls</h3><p>We give you one setting to turn on with your carrier (we'll text you the exact steps). That's the whole install.</p></div>
+      <div class="step"><div class="n">3</div><h3>Watch jobs book themselves</h3><p>Every missed call gets an instant text-back that qualifies the lead and books the inspection — then texts you the details.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="demo-cta">
+      <h2 class="display">Watch a missed call become a booked job</h2>
+      <p>30-second interactive demo. Play the customer; watch LeadCatch qualify and book.</p>
+      <a href="./preview.html" class="btn btn-primary">Open the live demo</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--soft)">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Honest pricing</span>
+      <h2 class="display">One flat price. It pays for itself with one saved job.</h2>
+      <p>Your average job is worth thousands. LeadCatch costs less than one missed lead a month.</p>
+    </div>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Solo</h3>
+        <div class="p">$97<span>/mo</span></div>
+        <ul>
+          <li>One business number</li>
+          <li>Missed-call text-back + auto-qualify</li>
+          <li>Books to your calendar</li>
+          <li>Texts you every new lead</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="#start" class="btn btn-ghost">Start free trial</a>
+      </div>
+      <div class="plan feat">
+        <h3>Crew</h3>
+        <div class="p">$197<span>/mo</span></div>
+        <ul>
+          <li>Everything in Solo</li>
+          <li>Web form + Facebook/Angi leads too</li>
+          <li>Spanish + English (CrewVoice)</li>
+          <li>Review-request automation</li>
+          <li>Priority setup help</li>
+        </ul>
+        <a href="#start" class="btn btn-primary">Start free trial</a>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:.9rem;margin-top:1.2rem">Want it fully done-for-you across every system? That's an <a href="https://allerion.io" style="color:var(--accent-d);font-weight:600">Allerion install</a>.</p>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <div class="signup">
+      <div class="in">
+        <h2 class="display">Start your free trial</h2>
+        <p class="sub">14 days free. Your first booked job usually pays for the year.</p>
+        <form id="form">
+          <div class="field"><label>Business name</label><input id="biz" placeholder="e.g. Summit Roofing" required /></div>
+          <div class="field"><label>Your business phone</label><input id="phone" type="tel" placeholder="(502) 555-0142" required /></div>
+          <div class="field"><label>Email</label><input id="email" type="email" placeholder="you@yourco.com" required /></div>
+          <button class="btn btn-primary" type="submit">Start free trial →</button>
+        </form>
+        <div id="ok"><strong>You're in. 🎉</strong><br/>Check your email — we'll text the 2-minute call-forwarding setup to your number and your trial starts now.</div>
+        <p class="fine">No charge for 14 days. We'll never spam your customers — every text is opt-out compliant (A2P 10DLC / TCPA).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow">Straight answers</span><h2 class="display">Questions</h2></div>
+    <div class="faq">
+      <details open><summary>Do I need a new phone number?</summary><p>No. LeadCatch works with the business number you already advertise. You just turn on call-forward-on-no-answer — we send you the exact steps for your carrier.</p></details>
+      <details><summary>Will it text my customers weird robot messages?</summary><p>No. It writes in plain, friendly English in your business's voice, asks one question at a time, and hands off to you the moment a human's needed.</p></details>
+      <details><summary>What if I'm already on a job and the AI books a time I can't make?</summary><p>It only offers slots you've marked open, and it texts you every booking instantly so you can adjust. You're always in control.</p></details>
+      <details><summary>Is it really $97/mo with no contract?</summary><p>Yes. Month to month, cancel anytime in two clicks. One booked job a month makes it free many times over.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">LeadCatch is a product of Allerion Technologies LLC · <a href="https://allerion.io" style="color:var(--accent-d)">allerion.io</a> · info@allerion.io</div>
+</footer>
+
+<script>
+  // Trial signup. TODO: POST to your /signup endpoint, which creates a Stripe
+  // Checkout session (14-day trial) and returns checkout_url to redirect to.
+  const form = document.getElementById('form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      business: document.getElementById('biz').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      email: document.getElementById('email').value.trim(),
+    };
+    // Real flow:
+    // const r = await fetch('/signup', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    // const { checkout_url } = await r.json();
+    // window.location = checkout_url;   // Stripe Checkout, 14-day trial
+    console.log('signup payload →', payload);
+    form.style.display = 'none';
+    document.getElementById('ok').style.display = 'block';
+  });
+</script>
+</body>
+</html>

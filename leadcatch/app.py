@@ -132,6 +132,34 @@ async def health():
     return {"ok": True, "model": MODEL, "business": BUSINESS["name"]}
 
 
+# --- Self-serve signup → Stripe 14-day trial --------------------------------
+# This is the money path: a contractor signs up from landing.html, we start a
+# Stripe Checkout subscription with a 14-day free trial, and store the lead.
+
+import stripe  # noqa: E402
+
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY", "")
+STRIPE_PRICE_ID = os.environ.get("STRIPE_PRICE_ID", "")        # the $97/mo price
+PUBLIC_URL = os.environ.get("PUBLIC_URL", "http://localhost:8000")
+
+SIGNUPS: dict[str, dict] = {}  # phone -> {business, email}; swap for a DB
+
+
+@app.post("/signup")
+async def signup(business: str = Form(...), phone: str = Form(...), email: str = Form(...)):
+    SIGNUPS[phone] = {"business": business, "email": email}
+    session = stripe.checkout.Session.create(
+        mode="subscription",
+        line_items=[{"price": STRIPE_PRICE_ID, "quantity": 1}],
+        subscription_data={"trial_period_days": 14},
+        customer_email=email,
+        success_url=f"{PUBLIC_URL}/welcome?biz={business}",
+        cancel_url=f"{PUBLIC_URL}/?canceled=1",
+        metadata={"business": business, "phone": phone},
+    )
+    return {"checkout_url": session.url}
+
+
 # --- Offline demo (no Twilio, no webhook) ------------------------------------
 # Run `python app.py` to chat with the agent in your terminal (needs only
 # ANTHROPIC_API_KEY). This is the same brain the webhooks use.

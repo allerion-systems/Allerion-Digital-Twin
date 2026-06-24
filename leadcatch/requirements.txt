@@ -4,3 +4,4 @@ uvicorn>=0.32
 twilio>=9.0
 pydantic>=2.7
 python-multipart>=0.0.9
+stripe>=9.0
