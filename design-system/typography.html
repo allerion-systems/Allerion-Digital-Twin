@@ -1,0 +1,31 @@
+<!-- @dsCard group="Foundations" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Allerion — Typography</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --accent:#5a6850; --muted:#6a7062; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Inter,sans-serif; background:#fbfbf8; color:#181b12; padding:40px; }
+  h1 { font-size:1rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:28px; }
+  .display { font-family:"Fraunces",serif; font-weight:600; letter-spacing:-.015em; }
+  .row { padding:14px 0; border-bottom:1px solid #e6e8df; display:flex; align-items:baseline; gap:20px; }
+  .tag { font-family:"JetBrains Mono",monospace; font-size:.72rem; color:var(--muted); width:160px; flex:0 0 160px; }
+  .d1 { font-size:3rem; } .d2 { font-size:2.1rem; } .h { font-size:1.4rem; font-weight:700; }
+  .body { font-size:1rem; } .small { font-size:.85rem; color:var(--muted); }
+  .mono { font-family:"JetBrains Mono",monospace; }
+</style>
+</head>
+<body>
+  <h1>Typography</h1>
+  <div class="row"><span class="tag">Display / Fraunces 600</span><span class="display d1">Stop losing jobs</span></div>
+  <div class="row"><span class="tag">Section / Fraunces 600</span><span class="display d2">Three steps to autopilot</span></div>
+  <div class="row"><span class="tag">Heading / Inter 700</span><span class="h">AI workers for the trades</span></div>
+  <div class="row"><span class="tag">Body / Inter 400</span><span class="body">We install AI assistants into the tools you already use, so the office runs itself.</span></div>
+  <div class="row"><span class="tag">Small / Inter 500</span><span class="small">No long contracts · You own everything we build.</span></div>
+  <div class="row"><span class="tag">Mono / JetBrains</span><span class="mono">$ ally  ·  _/\_ v1.0  ·  claude-opus-4-8</span></div>
+</body>
+</html>
