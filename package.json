@@ -1,15 +1,23 @@
 {
-  "name": "allerion-digital-twin",
-  "version": "1.0.0",
-  "description": "Allerion Intelligence Digital Twin - USGS Submission",
+  "name": "allerion-hud-glasses",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ALLERION Digital Twin plus AI HUD glasses app, BLE bridge, and manufacturing-agent scaffold.",
   "main": "server.js",
+  "workspaces": [
+    "apps/mobile",
+    "packages/*"
+  ],
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "mobile": "npm --workspace apps/mobile run start",
+    "api": "cd apps/api && uvicorn main:app --reload --port 8080",
+    "typecheck": "npm --workspaces run typecheck --if-present"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
-    "axios": "^1.6.8"
+    "express": "^4.19.2"
   }
 }
